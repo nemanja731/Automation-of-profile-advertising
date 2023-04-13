@@ -224,7 +224,6 @@ class Application(tk.Frame):
             image_without_exif.putdata(data)
             image_without_exif.save(filename)
 
-
     def checkFunction(self, files, root, vars, varR, itr):
         for file in files:
             filename = os.path.join(root,file)
