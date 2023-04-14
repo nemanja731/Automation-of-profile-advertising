@@ -24,15 +24,7 @@ class Application(tk.Frame):
         self.labelFolder.grid(column=0, row=0, sticky=tk.W, padx=5, pady=5)
         self.entryFolder.grid(column=0, row=1, sticky=tk.W, padx=5, pady=5)
         self.buttonBrowse.grid(column=0, row=2, sticky=tk.W, padx=5, pady=5)
-        self.checkButton1.grid(column=0, row=3, sticky=tk.W, padx=5, pady=5)
-        self.checkButton2.grid(column=0, row=4, sticky=tk.W, padx=5, pady=5)
-        self.checkButton3.grid(column=0, row=5, sticky=tk.W, padx=5, pady=5)
-        self.checkButton4.grid(column=0, row=6, sticky=tk.W, padx=5, pady=5)
-        self.checkButton5.grid(column=0, row=7, sticky=tk.W, padx=5, pady=5)
-        self.checkButton6.grid(column=0, row=8, sticky=tk.W, padx=5, pady=5)
-        self.checkButton7.grid(column=0, row=9, sticky=tk.W, padx=5, pady=5)
-        self.checkButton8.grid(column=0, row=10, sticky=tk.W, padx=5, pady=5)
-        self.checkButton9.grid(column=1, row=3, sticky=tk.W, padx=5, pady=5)
+        self.gridCheckBoxes()
         self.radioButton1.grid(column=1, row=5, sticky=tk.W, padx=5, pady=5)
         self.radioButton2.grid(column=1, row=6, sticky=tk.W, padx=5, pady=5)
         self.labelMultipleTimes.pack(side=tk.LEFT, fill= tk.Y)
@@ -42,6 +34,17 @@ class Application(tk.Frame):
         self.buttonstart.grid(column=1, row=10, sticky=tk.EW, padx=5, pady=5)
         self.labelProgress.grid(column=1, row=11, sticky=tk.W, padx=5, pady=5)
         self.frameMain.pack(side= tk.TOP, fill= tk.BOTH)
+
+    def gridCheckBoxes(self):
+        self.checkButton1.grid(column=0, row=3, sticky=tk.W, padx=5, pady=5)
+        self.checkButton2.grid(column=0, row=4, sticky=tk.W, padx=5, pady=5)
+        self.checkButton3.grid(column=0, row=5, sticky=tk.W, padx=5, pady=5)
+        self.checkButton4.grid(column=0, row=6, sticky=tk.W, padx=5, pady=5)
+        self.checkButton5.grid(column=0, row=7, sticky=tk.W, padx=5, pady=5)
+        self.checkButton6.grid(column=0, row=8, sticky=tk.W, padx=5, pady=5)
+        self.checkButton7.grid(column=0, row=9, sticky=tk.W, padx=5, pady=5)
+        self.checkButton8.grid(column=0, row=10, sticky=tk.W, padx=5, pady=5)
+        self.checkButton9.grid(column=1, row=3, sticky=tk.W, padx=5, pady=5)
 
     def createWidgets(self):
         #Defining variables
