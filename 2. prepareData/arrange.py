@@ -23,11 +23,21 @@ class Window(QWidget): # type: ignore
         self.height = 390
         self.setGeometry(self.left, self.top, self.width, self.height)
         self.setMinimumSize(QSize(self.width, self.height))       # type: ignore 
-        self.setWindowTitle('First Processor')
-
+        self.setWindowTitle('Arrange files')
         x = 100
         y = 20
+        self.setCopyParts(x, y)
+        x += 100
+        y += 130
+        self.setProcessParts(x, y)
+        self.setGmxParts(x, y)
+        self.setSnapParts(x, y)
+        y -= 140
+        x += 7
+        self.setButtons(x, y)
+        self.setVariables()
 
+    def setCopyParts(self, x, y):
         self.copyMailButton = QPushButton('Copy\nmail', self)       # type: ignore
         self.copyMailButton.clicked.connect(self.copyMail)
         self.copyMailButton.adjustSize()
@@ -48,10 +58,8 @@ class Window(QWidget): # type: ignore
         self.copySnapUsernameButton.clicked.connect(self.copySnapUsername)
         self.copySnapUsernameButton.adjustSize()
         self.copySnapUsernameButton.move(x + 95, y + 110)
-        
-        x += 100
-        y += 130
 
+    def setProcessParts(self, x, y):
         self.processLogLabel = QLabel('', self)       # type: ignore
         self.processLogLabel.adjustSize()
         self.processLogLabel.move(x + 10, y + 10)
@@ -59,13 +67,16 @@ class Window(QWidget): # type: ignore
         self.processLogContent.adjustSize()
         self.processLogContent.move(x - 85, y + 40)
         self.processLogContent.resize(260, 90)
-
+    
+    def setGmxParts(self, x, y):
         self.gmxMailLabel = QLabel('Gmx mail:', self)       # type: ignore
         self.gmxMailLabel.adjustSize()
         self.gmxMailLabel.move(10, y + 45)
         self.gmxPasswordLabel = QLabel('Gmx password:', self)       # type: ignore
         self.gmxPasswordLabel.adjustSize()
         self.gmxPasswordLabel.move(10, y + 61)
+    
+    def setSnapParts(self, x, y):
         self.snapFirstNameLabel = QLabel('Snap firstName:', self)       # type: ignore
         self.snapFirstNameLabel.adjustSize()
         self.snapFirstNameLabel.move(10, y + 77)
@@ -76,9 +87,7 @@ class Window(QWidget): # type: ignore
         self.snapUsernameLabel.adjustSize()
         self.snapUsernameLabel.move(10, y + 109)
 
-        y -= 140
-        x += 7
-
+    def setButtons(self, x, y):
         self.nextButton = QPushButton('Next', self)       # type: ignore
         self.nextButton.clicked.connect(self.nextFunction)
         self.nextButton.adjustSize()
@@ -93,6 +102,7 @@ class Window(QWidget): # type: ignore
         self.tryAgainButton.adjustSize()
         self.tryAgainButton.move(x - 10, y + 330)
 
+    def setVariables(self):
         self.numEmulators = 0
         self.index = 0
         self.indexSnapUsername = 0
@@ -130,6 +140,24 @@ class Window(QWidget): # type: ignore
         self.copySnapPasswordButton.setDisabled(flag)
 
     def checkEnoughData(self):
+        self.checkFiles()
+        self.makeOutputFile()
+        self.extractSnapNames()
+        self.extractData()
+        self.extractSnapUsernames()
+        if len(self.snapUsernames) < self.numEmulators:
+            self.processLogContent.setText('There are not enough snap usernames. You need ' + str(self.numEmulators) + ' usernames, but you have only ' + str(len(self.snapUsernames)) + ' usernames.')
+            QApplication.processEvents()       # type: ignore
+            self.changeButtons(True)
+            return
+        msg = self.gmxMails[self.index] + '\n' + self.gmxPasswords[self.index] + '\n' + self.snapNames[self.index] + '\n' + self.snapPasswords[self.index] + '\n'
+        self.msg = self.gmxMails[self.index] + '\n' + self.gmxPasswords[self.index] + '\n' + self.snapNames[self.index] + '\n' + self.snapPasswords[self.index]
+        self.processLogContent.setText(msg)
+        if self.numEmulators == 1:
+            self.nextButton.setDisabled(True)
+            self.finishButton.setDisabled(False)
+
+    def checkFiles(self):
         with open('./gmx.txt', "r") as Reader:
             lines = Reader.readlines()
             if len(lines) < self.numEmulators:
@@ -148,21 +176,6 @@ class Window(QWidget): # type: ignore
             self.fullGmx[self.numEmulators - 1] = self.fullGmx[self.numEmulators - 1].rstrip('\n')
             Writer.writelines(self.fullGmx) 
             self.fullGmx[self.numEmulators - 1] += '\n'
-        self.makeOutputFile()
-        self.extractSnapNames()
-        self.extractData()
-        self.extractSnapUsernames()
-        if len(self.snapUsernames) < self.numEmulators:
-            self.processLogContent.setText('There are not enough snap usernames. You need ' + str(self.numEmulators) + ' usernames, but you have only ' + str(len(self.snapUsernames)) + ' usernames.')
-            QApplication.processEvents()       # type: ignore
-            self.changeButtons(True)
-            return
-        msg = self.gmxMails[self.index] + '\n' + self.gmxPasswords[self.index] + '\n' + self.snapNames[self.index] + '\n' + self.snapPasswords[self.index] + '\n'
-        self.msg = self.gmxMails[self.index] + '\n' + self.gmxPasswords[self.index] + '\n' + self.snapNames[self.index] + '\n' + self.snapPasswords[self.index]
-        self.processLogContent.setText(msg)
-        if self.numEmulators == 1:
-            self.nextButton.setDisabled(True)
-            self.finishButton.setDisabled(False)
 
     def makeOutputFile(self):
         today = date.today()
@@ -253,6 +266,17 @@ class Window(QWidget): # type: ignore
         self.usernames.append(self.snapUsername)
         self.snapUsername = ''
 
+    def writeFiles(self):
+        with open('../' + self.fileName[3:-4] + ' messages.txt', 'w') as Writer2:
+            with open('../mainGUI/orders/customer.txt', 'w') as Writer:
+                for i in range(0, len(self.usernames)):
+                    if i == len(self.usernames) - 1:
+                        Writer.write(self.usernames[i])
+                        Writer2.write('{add me on|follow me on|join me on} snapchat: ' + self.usernames[i])
+                    else:
+                        Writer.write(self.usernames[i] + '\n')
+                        Writer2.write('{add me on|follow me on|join me on} snapchat: ' + self.usernames[i] + '\n')
+
     def finishFunction(self):
         self.nextFunction()
         self.finishButton.setDisabled(True)
@@ -263,15 +287,7 @@ class Window(QWidget): # type: ignore
             Writer.writelines(lines[:-2])
         self.processLogContent.setText('Program finished.')
         QApplication.processEvents()       # type: ignore
-        with open('../' + self.fileName[3:-4] + ' messages.txt', 'w') as Writer2:
-            with open('../Traffic Processor/orders/alba.txt', 'w') as Writer:
-                for i in range(0, len(self.usernames)):
-                    if i == len(self.usernames) - 1:
-                        Writer.write(self.usernames[i])
-                        Writer2.write('{hit me up on|add my|add me up on|follow me on|join me on} s.c: ' + self.usernames[i])
-                    else:
-                        Writer.write(self.usernames[i] + '\n')
-                        Writer2.write('{hit me up on|add my|add me up on|follow me on|join me on} s.c: ' + self.usernames[i] + '\n')
+        self.writeFiles()
         for username in self.usedSnapUsernames:
             if username != '':
                 self.snapUsernames.remove(username)

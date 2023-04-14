@@ -2,19 +2,22 @@ from ppadb.client import Client as AdbClient
 import time
 import subprocess
 
-#path = 'C:/LDPlayer/LDPlayer64/dnmultiplayer.exe'
-#subprocess.Popen(path)
+path = 'C:/LDPlayer/LDPlayer64/dnmultiplayer.exe'
+subprocess.Popen(path)
 
 client = AdbClient(host = "127.0.0.1", port = 5037)
-#if len(client) == 0:
-    #print("No devices attached")
-    #quit()
+if len(client) == 0:
+    print("No devices attached")
+    quit()
 device = client.device("emulator-5556")
 time.sleep(2)
-#device.shell('input touchscreen tap 400 403')
-#device.shell("input swipe 20 260 20 200 2000")
+device.shell('input touchscreen tap 400 403')
+device.shell("input swipe 20 260 20 200 2000")
 device.shell('input touchscreen tap 372 338')
 """
+
+List of commands for controlling the mouse and keyboard on the screen and on the emulator
+
 time.sleep(1)
 device.shell('input touchscreen tap 440 172')
 time.sleep(1)
@@ -42,25 +45,25 @@ device.shell('input text "Neca%scar"')
 time.sleep(1)
 device.shell('input keyevent 66')
 
-#mis na odredjenu poziciju t vremena se prebacuje tu
+#the mouse is moved to a certain position t time
 pyautogui.moveTo(x, y, t)
-#kliktanje jednom
+#clicking once
 pyautogui.click(x, y)
-#dupli klik
+#double click
 pyautogui.click(x, y, clicks = 2)
-#skrol na dole
+#scroll down
 pyautogui.scroll(-100)
-#nadji poziciju misa
+#find the position of the mouse
 x, y = pyautogui.position()
 
 #emulator
-#klikni na x, y poziciju
+#click on the x,y position
 device.shell('input touchscreen tap x y')
-#unesi tekst (%s je razmak)
+#enter text (%s is a space)
 device.shell('input text "Neca%scar"')
-#uradi naredbu key = 66 sto je enter
+#do the command key = 66 which is enter
 device.shell('input keyevent 66')
-#skroluje misa na dole
+#mouse scroll down
 device.shell("input swipe " + x22 + y22 + x11 + y11 + swipeTime2)
 
 0 -->  "KEYCODE_UNKNOWN" 

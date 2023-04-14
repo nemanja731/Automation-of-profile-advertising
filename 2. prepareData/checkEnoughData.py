@@ -35,18 +35,18 @@ class Window(QWidget): # type: ignore
 
     def check(self):
         gmxPath = './First Processor/gmx.txt'
-        mailsPath = './Traffic Processor/data/files/EmailAddresses.txt'
-        biographiesPath = './Traffic Processor/data/files/BioData.txt'
-        firstNamesPath = './Traffic Processor/data/files/FirstNames.txt'
         with open(gmxPath, 'r') as Reader:
             lines = Reader.readlines()
+        mailsPath = './Traffic Processor/data/files/EmailAddresses.txt'
         numGmx = len(lines)
         with open(mailsPath, 'r') as Reader:
             lines = Reader.readlines()
         numMails = len(lines)
+        biographiesPath = './Traffic Processor/data/files/Biography.txt'
         with open(biographiesPath, 'r') as Reader:
             lines = Reader.readlines()
         numBiographies = len(lines)
+        firstNamesPath = './Traffic Processor/data/files/FirstNames.txt'
         with open(firstNamesPath, 'r') as Reader:
             lines = Reader.readlines()
         numNames = len(lines)
@@ -54,7 +54,7 @@ class Window(QWidget): # type: ignore
         msg += str(numGmx) + ' lines available from file gmx.txt\n'
         msg += str(numMails) + ' lines available from file EmailAddresses.txt\n'
         msg += str(numNames) + ' lines available from file FirstNames.txt\n'
-        msg += str(numBiographies) + ' lines available from file BioData.txt'
+        msg += str(numBiographies) + ' lines available from file Biography.txt'
         self.processLogContent.setText(msg)
 
 if __name__ == "__main__":

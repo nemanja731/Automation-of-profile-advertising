@@ -13,31 +13,13 @@ from datetime import date
 from ppadb.client import Client as AdbClient
 from pynput.keyboard import Key, Controller
 
-#815, 190       gmx app
-#916, 190       snapchat app
-
-#adb devices id
-# 0 - 5554
-# 1 - 5556
-# 2 - 5558
-# 3 - 5560
-# 4 - 5562
-# 5 - 5564
-# 6 - 5566
-# 7 - 5568
-# 8 - 5570
-# 9 - 5572
-# 10 - 5574
-# 11 - 5576
-# 12 - 5578
-
 class Application(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
         self.master = master
         self.pack()
         self.initialize()
-        self.create_widgets()
+        self.createWidgets()
         self.test()
 
     def initialize(self):
@@ -54,46 +36,49 @@ class Application(tk.Frame):
         self.usernames = []
         self.fileName = ''
 
-    def create_widgets(self):
-        self.main_frame = tk.Frame(master=self.master)
-        self.main_frame.pack(fill =tk.BOTH, side = tk.LEFT, expand = True)
-        self.frame_buttons = tk.Frame(master=self.main_frame)
-        self.button_start = tk.Button(master=self.frame_buttons, text= "START", font = ('Arial',10,'bold'), width= 15, pady= 5, background= "green", foreground= "white", command= self.start_process)
-        self.button_quit = tk.Button(master=self.frame_buttons, text= "STOP", font = ('Arial',10,'bold'), width= 15, pady= 5, bg= "red", fg= "white", command= self.stop_process)
-        self.button_quit.config(state='disabled', background = 'gray', foreground='gray')
-        self.button_start.pack(side = tk.LEFT, padx = 10)
-        self.button_quit.pack(side = tk.LEFT)
-        self.frame_emulators = tk.Frame(master=self.main_frame)
-        self.emulator_entry = []
+    def createWidgets(self):
+        self.mainFrame = tk.Frame(master=self.master)
+        self.mainFrame.pack(fill =tk.BOTH, side = tk.LEFT, expand = True)
+        self.frameButtons = tk.Frame(master=self.mainFrame)
+        self.buttonStart = tk.Button(master=self.frameButtons, text= "START", font = ('Arial',10,'bold'), width= 15, pady= 5, background= "green", foreground= "white", command= self.startProcess)
+        self.buttonQuit = tk.Button(master=self.frameButtons, text= "STOP", font = ('Arial',10,'bold'), width= 15, pady= 5, bg= "red", fg= "white", command= self.stopProcess)
+        self.buttonQuit.config(state='disabled', background = 'gray', foreground='gray')
+        self.buttonStart.pack(side = tk.LEFT, padx = 10)
+        self.buttonQuit.pack(side = tk.LEFT)
+        self.setupEmulators()
+        self.mainFrame.rowconfigure(0, minsize = 10)
+        self.mainFrame.columnconfigure(0, minsize = 30)
+        self.frameButtons.grid(row=1, column= 1, sticky="ns", pady=30)
+        self.frameEmulators.grid(row=2, column= 1, sticky="ns")
+
+    def setupEmulators(self):
+        self.frameEmulators = tk.Frame(master=self.mainFrame)
+        self.emulatorEntry = []
         for i in range(6):
-            self.e = tk.Entry(self.frame_emulators, width = 10, font=('Arial',10,'bold'))       
+            self.e = tk.Entry(self.frameEmulators, width = 10, font=('Arial',10,'bold'))       
             self.e.grid(row=i, column=1)
             self.e.insert(tk.END, 'Emulator ' + str(i + 1))
             self.e.config(state='disabled')
-            self.e = tk.Entry(self.frame_emulators, width = 52, font=('Arial',10,'bold'))
-            self.emulator_entry.append(self.e)
+            self.e = tk.Entry(self.frameEmulators, width = 52, font=('Arial',10,'bold'))
+            self.emulatorEntry.append(self.e)
             self.e.grid(row=i, column=2)
             self.e.insert(tk.END, 'Emulator doesn\'t exists')
             self.e.config(state='disabled')
-        self.main_frame.rowconfigure(0, minsize = 10)
-        self.main_frame.columnconfigure(0, minsize = 30)
-        self.frame_buttons.grid(row=1, column= 1, sticky="ns", pady=30)
-        self.frame_emulators.grid(row=2, column= 1, sticky="ns")
 
-    def insert_text(self, emulator_entry, text):
-        emulator_entry.config(state='normal')
-        emulator_entry.delete(0,"end")
-        emulator_entry.insert(0, text)
-        emulator_entry.config(state='disabled')
+    def insertText(self, emulatorEntry, text):
+        emulatorEntry.config(state='normal')
+        emulatorEntry.delete(0,"end")
+        emulatorEntry.insert(0, text)
+        emulatorEntry.config(state='disabled')
 
-    def move_and_click(self, x, y):
+    def moveAndClick(self, x, y):
         pyautogui.moveTo(x, y, 0.5)
         time.sleep(0.5)
         pyautogui.click(x, y)
         time.sleep(0.5)
 
-    def delete_first_6(self):
-        self.move_and_click(1088, 399)      #display LD multiplayer app
+    def deleteFirst6(self):
+        self.moveAndClick(1088, 399)      #display LD multiplayer app
         start = [
             [462, 290],
             [462, 342],
@@ -103,13 +88,13 @@ class Application(tk.Frame):
             [461, 545],
         ]
         for i in range(6):
-            self.move_and_click(start[i][0], start[i][1])       #(i+1). checker
-        self.move_and_click(586, 679)       #batch
-        self.move_and_click(630, 649)       #remove selected
-        self.move_and_click(706, 504)       #confirm
+            self.moveAndClick(start[i][0], start[i][1])       #(i+1). checker
+        self.moveAndClick(586, 679)       #batch
+        self.moveAndClick(630, 649)       #remove selected
+        self.moveAndClick(706, 504)       #confirm
 
-    def change_emulator_name(self, x, y):
-        self.move_and_click(x, y)
+    def changeEmulatorName(self, x, y):
+        self.moveAndClick(x, y)
         time.sleep(1)
         pyautogui.click(x, y)
         time.sleep(1)
@@ -123,30 +108,29 @@ class Application(tk.Frame):
         text = d + '.' + m
         pyautogui.write(text, interval = 0.2)
 
-    def create_and_adjust_first_emulator(self):
-        self.move_and_click(1088, 399)      #display LD multiplayer app
-        self.move_and_click(1008, 681)      #new/clone
-        self.move_and_click(660, 397)       #new player
+    def beforeRunningEmulator(self):
+        self.moveAndClick(1088, 399)      #display LD multiplayer app
+        self.moveAndClick(1008, 681)      #new/clone
+        self.moveAndClick(660, 397)       #new player
         time.sleep(5)
-        self.change_emulator_name(626, 594)
+        self.changeEmulatorName(626, 594)
         time.sleep(3)
-        self.move_and_click(1088, 399)      #display LD multiplayer app
-        self.move_and_click(951, 596)       #7. emulator open settings
+        self.moveAndClick(1088, 399)      #display LD multiplayer app
+        self.moveAndClick(951, 596)       #7. emulator open settings
         time.sleep(1)
-        self.move_and_click(818, 150)       #mobile
-        self.move_and_click(708, 286)       #540x960 (dpi 240)
-        self.move_and_click(782, 416)       #RAM
-        self.move_and_click(757, 580)       #2048M
-        self.move_and_click(448, 497)       #other settings
-        self.move_and_click(793, 500)       #ADB debugging
-        self.move_and_click(774, 526)       #open local connection
-        self.move_and_click(994, 718)       #save
+        self.moveAndClick(818, 150)       #mobile
+        self.moveAndClick(708, 286)       #540x960 (dpi 240)
+        self.moveAndClick(782, 416)       #RAM
+        self.moveAndClick(757, 580)       #2048M
+        self.moveAndClick(448, 497)       #other settings
+        self.moveAndClick(793, 500)       #ADB debugging
+        self.moveAndClick(774, 526)       #open local connection
+        self.moveAndClick(994, 718)       #save
         time.sleep(1)
-        self.move_and_click(1088, 399)      #display LD multiplayer app
+        self.moveAndClick(1088, 399)      #display LD multiplayer app
         time.sleep(1)
-        self.move_and_click(861, 593)       #run first emulator
-        time.sleep(30)
-        #fix bug with emulator
+
+    def fixBugWithEmulator(self):
         pyautogui.moveTo(x=552, y=39)
         time.sleep(0.2)
         pyautogui.mouseDown(button='left')
@@ -154,53 +138,65 @@ class Application(tk.Frame):
         time.sleep(0.2)
         pyautogui.mouseUp(button='left')
         time.sleep(1)
-        self.move_and_click(762, 573)      #click on emulator
-        #uninstall app on 3rd place, because maybe it is there
+
+    def uninstallUnnecessary(self):
         pyautogui.moveTo(x = 814, y = 192)
         time.sleep(0.5)
         pyautogui.mouseDown(button='left')
         time.sleep(2)
         pyautogui.moveTo(x = 659, y = 158)
         pyautogui.mouseUp(button='left')
-        self.move_and_click(898, 504)
+        self.moveAndClick(898, 504)
         time.sleep(1)
-        self.move_and_click(762, 573)      #click on emulator
-        time.sleep(1)
-        #click install apk GMX
+
+    def installGMX(self):
         keyboard.press(Key.ctrl)
         keyboard.press('3')
         keyboard.release('3')
         keyboard.release(Key.ctrl)
         time.sleep(2)
-        self.move_and_click(770, 146)       #GMX aplikacija
-        self.move_and_click(1146, 456)      #open
+        self.moveAndClick(770, 146)       #GMX aplikacija
+        self.moveAndClick(1146, 456)      #open
         time.sleep(20)
-        self.move_and_click(762, 573)       #click on emulator
-        #click install apk Snapchat
+
+    def installSnapchat(self):
         keyboard.press(Key.ctrl)
         keyboard.press('3')
         keyboard.release('3')
         keyboard.release(Key.ctrl)
         time.sleep(2)
-        self.move_and_click(775, 167)       #Snapchat aplikacija
-        self.move_and_click(1146, 456)      #open
+        self.moveAndClick(775, 167)       #Snapchat aplikacija
+        self.moveAndClick(1146, 456)      #open
+
+    def createAndAdjustFirstEmulator(self):
+        self.beforeRunningEmulator()
+        self.moveAndClick(861, 593)       #run first emulator
+        time.sleep(30)
+        self.fixBugWithEmulator()         #fix bug with emulator
+        self.moveAndClick(762, 573)       #click on emulator
+        self.uninstallUnnecessary()       #uninstall app on 3rd place, because maybe it is there
+        self.moveAndClick(762, 573)       #click on emulator
+        time.sleep(1)
+        self.installGMX()                 #click install apk GMX
+        self.moveAndClick(762, 573)       #click on emulator
+        self.installSnapvhat()            #click install apk Snapchat
         time.sleep(20)
-        self.move_and_click(1088, 399)      #display LD multiplayer app
-        self.move_and_click(861, 593)      #turn off first emulator
-        self.move_and_click(708, 486)       #confirm
+        self.moveAndClick(1088, 399)      #display LD multiplayer app
+        self.moveAndClick(861, 593)       #turn off first emulator
+        self.moveAndClick(708, 486)       #confirm
         time.sleep(10)
 
-    def batch_clone_5(self):
-        self.move_and_click(1088, 399)      #display LD multiplayer app
-        self.move_and_click(462, 596)       #check first emulator
-        self.move_and_click(588, 680)       #batch
-        self.move_and_click(642, 558)       #batch clone(5 players)
+    def batchClone5(self):
+        self.moveAndClick(1088, 399)      #display LD multiplayer app
+        self.moveAndClick(462, 596)       #check first emulator
+        self.moveAndClick(588, 680)       #batch
+        self.moveAndClick(642, 558)       #batch clone(5 players)
         time.sleep(20)
-        self.move_and_click(462, 596)       #uncheck first emulator
+        self.moveAndClick(462, 596)       #uncheck first emulator
 
-    def rename_emulators(self):
-        self.move_and_click(1088, 399)      #display LD multiplayer app
-        self.move_and_click(1094, 630)      #scroll down
+    def renameEmulators(self):
+        self.moveAndClick(1088, 399)      #display LD multiplayer app
+        self.moveAndClick(1094, 630)      #scroll down
         rename = [
             [862, 370],
             [863, 421],
@@ -210,7 +206,7 @@ class Application(tk.Frame):
             [864, 626]
         ]
         for i in range(6):
-            self.move_and_click(rename[i][0], rename[i][1])       #check first emulator
+            self.moveAndClick(rename[i][0], rename[i][1])       #check first emulator
             time.sleep(1)
             pyautogui.click(rename[i][0], rename[i][1])
             time.sleep(1)
@@ -220,17 +216,17 @@ class Application(tk.Frame):
                 pyautogui.hotkey('backspace')
             pyautogui.write(" - " + self.usernames[i], interval = 0.5)
 
-    def make_emulators(self):
-        self.delete_first_6()
-        self.create_and_adjust_first_emulator()
-        self.batch_clone_5()
+    def makeEmulators(self):
+        self.deleteFirst6()
+        self.createAndAdjustFirstEmulator()
+        self.batchClone5()
 
-    def touch(self, emulator, x, y, dx = 0, dy = 0, double_click = False):
+    def touch(self, emulator, x, y, dx = 0, dy = 0, doubleClick = False):
         time.sleep(1)
         x = str(x + dx)
         y = str(y + dy)
         emulator.shell('input touchscreen tap ' + x + ' ' + y)
-        if double_click == True:
+        if doubleClick == True:
             emulator.shell('input touchscreen tap x y')
         time.sleep(1)
 
@@ -239,7 +235,7 @@ class Application(tk.Frame):
         y1, y2 = '800', '520'
         emulator.shell("input swipe " + x1 + " " + y1  + " " + x2  + " " + y2)
 
-    def log_on_gmx(self, emulator):
+    def logOnGmx(self, emulator):
         self.touch(emulator, 308, 157, random.randint(-5, 5), random.randint(-5, 5))        #enter gmx app
         time.sleep(10)
         text = 'input text ' + self.gmxMails[self.index]
@@ -261,7 +257,7 @@ class Application(tk.Frame):
         emulator.shell('input keyevent 3')
         time.sleep(3)
 
-    def log_on_snapchat(self, emulator):
+    def enterSnapchat(self, emulator):
         self.touch(emulator, 430, 163, random.randint(-10, 10), random.randint(-10, 10))        #enter snapchat app
         time.sleep(10)
         self.touch(emulator, 340, 865, random.randint(-30, 30), random.randint(-5, 5))      #sign up
@@ -277,7 +273,8 @@ class Application(tk.Frame):
         time.sleep(2)
         emulator.shell(text)
         time.sleep(2)
-        self.touch(emulator, 250, 865, random.randint(-100, 100), random.randint(-5, 5))        #Sign up and accept
+
+    def setupBirthday(self, emulator):
         time.sleep(2)
         #choose month of birthday
         temp1 = random.randint(1, 12)
@@ -293,6 +290,8 @@ class Application(tk.Frame):
             self.touch(emulator, 360, 690, random.randint(-5, 5), random.randint(-2, 2))
         self.touch(emulator, 250, 558, random.randint(-100, 100), random.randint(-10, 10))      #Continue
         time.sleep(2)
+
+    def setupUsername(self, emulator):
         if self.ocr(emulator) == 'Change my username':
             self.touch(emulator, 250, 500, random.randint(-20, 20), random.randint(-1, 1))      #change my username
             self.touch(emulator, 250, 510, random.randint(-100, 100), random.randint(-3, 3), True)        #username
@@ -300,23 +299,17 @@ class Application(tk.Frame):
             self.touch(emulator, 250, 525, random.randint(-100, 100), random.randint(-3, 3))        #username
         time.sleep(1)
         #OCR: is already taken! // Username available
-        self.remember_username()
+        self.rememberUsername()
         while True:
             text = 'input text ' + self.snapUsernames[self.indexSnapUsername]
             time.sleep(4)
             if self.ocr(emulator) == 'Username available':
                 break
-            self.remember_username()
+            self.rememberUsername()
         emulator.shell(text)
         time.sleep(3)
-        self.touch(emulator, 250, 865, random.randint(-100, 100), random.randint(-5, 5))        #Continue
-        time.sleep(2)
-        self.touch(emulator, 250, 510, random.randint(-100, 100), random.randint(-5, 5))        #password
-        text = 'input text ' + self.snapPasswords[self.index]
-        emulator.shell(text)
-        time.sleep(3)
-        self.touch(emulator, 250, 865, random.randint(-100, 100), random.randint(-5, 5))        #Continue
-        time.sleep(2)
+
+    def allowAccess(self, emulator):
         self.touch(emulator, 281, 573, random.randint(-2, 2), random.randint(-1, 1))        #allow snapchat to make and manage phone calls? Deny
         time.sleep(1)
         if self.ocr(emulator) == 'Sign up with email instead':
@@ -342,9 +335,21 @@ class Application(tk.Frame):
         time.sleep(1)
         self.touch(emulator, 285, 525, random.randint(-2, 2), random.randint(-1, 1))        #allow snapchat to record audio? deny
         time.sleep(1)
+
+    def enterPassword(self, emulator):
+        self.touch(emulator, 250, 865, random.randint(-100, 100), random.randint(-5, 5))        #Continue
+        time.sleep(2)
+        self.touch(emulator, 250, 510, random.randint(-100, 100), random.randint(-5, 5))        #password
+        text = 'input text ' + self.snapPasswords[self.index]
+        emulator.shell(text)
+        time.sleep(3)
+        self.touch(emulator, 250, 865, random.randint(-100, 100), random.randint(-5, 5))        #Continue
+        time.sleep(2)
+
+    def adjustSettings(self, emulator):
         self.touch(emulator, 20, 50, random.randint(-2, 2), random.randint(-1, 1))      #profile
         time.sleep(1)
-        self.create_avatar(emulator)
+        self.createAvatar(emulator)
         self.touch(emulator, 462, 60, random.randint(-2, 2), random.randint(-1, 1))     #settings
         time.sleep(1)
         time.sleep(1)
@@ -365,7 +370,16 @@ class Application(tk.Frame):
         time.sleep(5)
         emulator.shell('input keyevent 66')
 
-    def create_avatar(self, emulator):
+    def logOnSnapchat(self, emulator):
+        self.enterSnapchat(emulator)
+        self.touch(emulator, 250, 865, random.randint(-100, 100), random.randint(-5, 5))        #Sign up and accept
+        self.setupBirthday(emulator)
+        self.setupUsername(emulator)
+        self.enterPassword(emulator)
+        self.allowAccess(emulator)
+        self.adjustSettings(emulator)
+
+    def createAvatar(self, emulator):
         self.touch(emulator, 250, 257, random.randint(-2, 2), random.randint(-1, 1))        #create my avatar
         self.touch(emulator, 365, 750, random.randint(-2, 2), random.randint(-1, 1))        #press man
         self.touch(emulator, 450, 50, random.randint(-2, 2), random.randint(-1, 1))     #skip
@@ -392,19 +406,19 @@ class Application(tk.Frame):
         emulator.shell("screencap -p /sdcard/screen.png")
         emulator.pull("/sdcard/screen.png", r"C:\Users\Administrator\Desktop\Automatization\screen.png")
         img = cv2.imread(r'C:\Users\Administrator\Desktop\Automatization\screen.png')
-        gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        _, thresh_img = cv2.threshold(gray_img, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
-        match_text1 = pytesseract.image_to_string(gray_img, lang='eng',config='--psm 6')
-        match_text2 = pytesseract.image_to_string(thresh_img, lang='eng',config='--psm 6')
-        self.check_ocr(self, match_text1, match_text2)
+        grayImg = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        _, threshImg = cv2.threshold(grayImg, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+        matchText1 = pytesseract.image_to_string(grayImg, lang='eng',config='--psm 6')
+        matchText2 = pytesseract.image_to_string(threshImg, lang='eng',config='--psm 6')
+        self.checkOCR(self, matchText1, matchText2)
 
-    def check_ocr(self, match_text1, match_text2):
-        if bool(re.search("Username available", match_text1)) or bool(re.search("Username available", match_text2)):
+    def checkOCR(self, matchText1, matchText2):
+        if bool(re.search("Username available", matchText1)) or bool(re.search("Username available", matchText2)):
             return "Username available"
         else:
             return ""
 
-    def remember_username(self):
+    def rememberUsername(self):
         while True:
             if self.snapUsernames[self.indexSnapUsername] in self.usedSnapUsernames:
                 self.indexSnapUsername += 1
@@ -417,19 +431,19 @@ class Application(tk.Frame):
             self.indexSnapUsername %= len(self.snapUsernames)
 
 
-    def run_and_connect_emulator(self, start, i, client, emulators_names):
-        self.move_and_click(start[i][0], start[i][1])       #run (i+1). emulator
+    def runAndConnectEmulator(self, start, i, client, emulatorsNames):
+        self.moveAndClick(start[i][0], start[i][1])       #run (i+1). emulator
         time.sleep(30)
         emulator = 0
         while True:
             try:
                 os.system('cmd /c "adb devices"')
-                emulator = client.device(emulators_names[i])
+                emulator = client.device(emulatorsNames[i])
                 break
             except:
-                print('Try to connect to ' + emulators_names[i])
+                print('Try to connect to ' + emulatorsNames[i])
                 time.sleep(1)
-        print('Successufuly connected to ' + emulators_names[i] + "!")
+        print('Successufuly connected to ' + emulatorsNames[i] + "!")
         pyautogui.moveTo(x=552, y=39)
         time.sleep(0.2)
         pyautogui.mouseDown(button='left')
@@ -437,42 +451,62 @@ class Application(tk.Frame):
         time.sleep(0.2)
         pyautogui.mouseUp(button='left')
         time.sleep(1)
-        self.move_and_click(762, 573)      #click on emulator
+        self.moveAndClick(762, 573)      #click on emulator
         time.sleep(1)
         return emulator
 
     def abort(self):
-        self.button_quit.config(state='disabled', background = 'gray', foreground='gray')
-        self.button_start.config(state='disabled', background = 'gray', foreground='gray')
+        self.buttonQuit.config(state='disabled', background = 'gray', foreground='gray')
+        self.buttonStart.config(state='disabled', background = 'gray', foreground='gray')
 
-    def catch_adb_device(self):
-        self.move_and_click(1088, 399)      #display LD multiplayer app
+    def catchAdbDevice(self):
+        self.moveAndClick(1088, 399)      #display LD multiplayer app
         time.sleep(1)
-        self.move_and_click(1095, 223)      #scroll up
+        self.moveAndClick(1095, 223)      #scroll up
         time.sleep(1)
         screenshot = pyautogui.screenshot()
         screenshot.save('./screenshot.png')
         time.sleep(2)
         img = cv2.imread('./screenshot.png', 0)
-        thresh_img = 255 - cv2.threshold(img, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
+        threshImg = 255 - cv2.threshold(img, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
         x,y,w,h = 600, 720, 30, 60  
-        cropped_img = thresh_img[y:y+h,x:x+w]
-        match_text = pytesseract.image_to_string(cropped_img, lang='eng',config='--psm 6')
-        print(match_text)
-        if bool(re.search("1", match_text)):
-            emulators_names = ["emulator-5556", "emulator-5558", "emulator-5560", "emulator-5562", "emulator-5564", "emulator-5566"]
-            return emulators_names
-        if bool(re.search("7", match_text)):
-            emulators_names = ["emulator-5568", "emulator-5570", "emulator-5572", "emulator-5574", "emulator-5576", "emulator-5578"]
-            return emulators_names
+        croppedImg = threshImg[y:y+h,x:x+w]
+        matchText = pytesseract.image_to_string(croppedImg, lang='eng',config='--psm 6')
+        print(matchText)
+        if bool(re.search("1", matchText)):
+            emulatorsNames = ["emulator-5556", "emulator-5558", "emulator-5560", "emulator-5562", "emulator-5564", "emulator-5566"]
+            return emulatorsNames
+        if bool(re.search("7", matchText)):
+            emulatorsNames = ["emulator-5568", "emulator-5570", "emulator-5572", "emulator-5574", "emulator-5576", "emulator-5578"]
+            return emulatorsNames
         return []
 
+    def startWithSetupEmulators(self):
+        time.sleep(1)
+        self.moveAndClick(1088, 399)      #display LD multiplayer app
+        self.moveAndClick(1094, 630)      #scroll down
+        for i in range(0, 6):
+            emulator = self.runAndConnectEmulator(start, i, client, emulatorsNames)
+            j = 0
+            for f in self.functions:
+                f(emulator)
+                if self.flag:
+                    self.insertText(self.emulatorEntry[i], 'Error: ' + self.functionsName[j])
+                    self.abort()
+                    return
+                j += 1
+            self.moveAndClick(1088, 399)      #display LD multiplayer app
+            self.moveAndClick(1094, 630)      #scroll down
+            self.moveAndClick(start[i][0], start[i][1])       #turn off emulator
+            self.insertText(self.emulatorEntry[i], 'Emulator is complete with setup')
+            self.nextFunction()
+
     def work(self):
-        emulators_names = self.catch_adb_device()
-        if emulators_names == []:
-            self.insert_text(self.emulator_entry[0], 'Error: ocr can\'t recognize number')
+        emulatorsNames = self.catchAdbDevice()
+        if emulatorsNames == []:
+            self.insertText(self.emulatorEntry[0], 'Error: ocr can\'t recognize number')
             return
-        print(emulators_names)
+        print(emulatorsNames)
         client = AdbClient(host = "127.0.0.1", port = 5037)
         start = [
             [862, 370],
@@ -482,26 +516,9 @@ class Application(tk.Frame):
             [861, 574],
             [859, 627]
         ]
-        time.sleep(1)
-        self.move_and_click(1088, 399)      #display LD multiplayer app
-        self.move_and_click(1094, 630)      #scroll down
-        for i in range(0, 6):
-            emulator = self.run_and_connect_emulator(start, i, client, emulators_names)
-            j = 0
-            for f in self.functions:
-                f(emulator)
-                if self.flag:
-                    self.insert_text(self.emulator_entry[i], 'Error: ' + self.functionsName[j])
-                    self.abort()
-                    return
-                j += 1
-            self.move_and_click(1088, 399)      #display LD multiplayer app
-            self.move_and_click(1094, 630)      #scroll down
-            self.move_and_click(start[i][0], start[i][1])       #turn off emulator
-            self.insert_text(self.emulator_entry[i], 'Emulator is complete with setup')
-            self.nextFunction()
+        self.startWithSetupEmulators()
         self.finishFunction()
-        self.rename_emulators()
+        self.renameEmulators()
 
     def makeOutputFile(self):
         today = date.today()
@@ -544,13 +561,12 @@ class Application(tk.Frame):
         for i in range(0, len(lines)):
             self.snapUsernames.append(lines[i].rstrip('\n'))
 
-    def checkEnoughData(self):
-        self.initialize()
+    def checkMails(self):
         with open('./gmx.txt', "r") as Reader:
             lines = Reader.readlines()
             if len(lines) < self.numEmulators:
                 for i in range(6):
-                    self.insert_text(self.emulator_entry[i], 'there are not enough gmx mails you have only ' + str(len(lines)) + ' mails')
+                    self.insertText(self.emulatorEntry[i], 'there are not enough gmx mails you have only ' + str(len(lines)) + ' mails')
                 return False
         with open('./gmx.txt', "r") as Reader:
             for i in range(0, self.numEmulators):
@@ -563,13 +579,17 @@ class Application(tk.Frame):
             self.fullGmx[self.numEmulators - 1] = self.fullGmx[self.numEmulators - 1].rstrip('\n')
             Writer.writelines(self.fullGmx) 
             self.fullGmx[self.numEmulators - 1] += '\n'
+
+    def checkEnoughData(self):
+        self.initialize()
+        self.checkMails()
         self.makeOutputFile()
         self.extractSnapNames()
         self.extractData()
         self.extractSnapUsernames()
         if len(self.snapUsernames) < self.numEmulators:
             for i in range(6):
-                self.insert_text(self.emulator_entry[i], 'there are not enough snap usernames you have only ' + str(len(self.snapUsernames)) + ' usernames')
+                self.insertText(self.emulatorEntry[i], 'there are not enough snap usernames you have only ' + str(len(self.snapUsernames)) + ' usernames')
             return False
         return True
 
@@ -591,7 +611,7 @@ class Application(tk.Frame):
         with open(self.fileName, 'w') as Writer:
             Writer.writelines(lines[:-2])
         with open('../' + self.fileName[3:-4] + ' messages.txt', 'w') as Writer2:
-            with open('../Traffic Processor/orders/alba.txt', 'w') as Writer:
+            with open('../mainGUI/orders/customer.txt', 'w') as Writer:
                 for i in range(0, len(self.usernames)):
                     if i == len(self.usernames) - 1:
                         Writer.write(self.usernames[i])
@@ -607,20 +627,20 @@ class Application(tk.Frame):
         with open('./snapUsernames.txt', 'w') as Writer:
             Writer.writelines(self.snapUsernames)
 
-    def start_process(self):
+    def startProcess(self):
         if self.checkEnoughData() == False:
             return
         subprocess.Popen('D:/LDPlayer/LDPlayer4.0/dnmultiplayer.exe')
         time.sleep(2)
-        self.move_and_click(1418, 14)
+        self.moveAndClick(1418, 14)
         time.sleep(3)
-        #self.make_emulators()
-        self.button_quit.config(state='normal', background = 'red', foreground='white')
-        self.button_start.config(state='disabled', background = 'gray', foreground='gray')
+        #self.makeEmulators()
+        self.buttonQuit.config(state='normal', background = 'red', foreground='white')
+        self.buttonStart.config(state='disabled', background = 'gray', foreground='gray')
         self.flag = False
         self.functions = [
-            self.log_on_gmx,
-            self.log_on_snapchat,
+            self.logOnGmx,
+            self.logOnSnapchat,
         ]
         self.functionsName = [
             'log on gmx',
@@ -628,39 +648,31 @@ class Application(tk.Frame):
         ]
         self.work()
     
-    def stop_process(self):
+    def stopProcess(self):
         self.flag = True
-        self.button_quit.config(state='disabled', background = 'gray', foreground='gray')
-        self.button_start.config(state='normal', background = 'green', foreground='white')
+        self.buttonQuit.config(state='disabled', background = 'gray', foreground='gray')
+        self.buttonStart.config(state='normal', background = 'green', foreground='white')
         for i in range(6):
-            self.insert_text(self.emulator_entry[i], 'Emulator is turned off')
+            self.insertText(self.emulatorEntry[i], 'Emulator is turned off')
 
     def test(self):
-        self.start_process()    
+        self.startProcess()    
 
-    # def start_process_accepting(self):
-    #     self.make_emulators()
-    #     self.button_quit.config(state='normal', background = 'red', foreground='white')
-    #     self.button_start.config(state='disabled', background = 'gray', foreground='gray')
-    #     self.emulators = [1, 2, 3, 4, 5, 6]
-    #     self.flags = [False]*6
-    #     threads = []
-    #     self.functions = [
-    #         self.run_emulator,
-    #         self.log_on_gmx,
-    #         self.log_on_snapchat,
-    #         self.turn_off_emulator
-    #     ]
-    #     for i in range(6):
-    #         t = threading.Thread(target = self.work, args = (self.emulators[i], self.flags[i]))
-    #         threads.append(t)
-    #         t.start()
-
-    # def work_accepting(self, emulator, em_ind):
-    #     i = 0
-    #     while self.flags[em_ind]:
-    #         self.functions[i](emulator, em_ind)
-    #         i += 1
+    def startProcess_accepting(self):
+        self.makeEmulators()
+        self.buttonQuit.config(state='normal', background = 'red', foreground='white')
+        self.buttonStart.config(state='disabled', background = 'gray', foreground='gray')
+        self.emulators = [1, 2, 3, 4, 5, 6]
+        self.flags = [False]*6
+        threads = []
+        self.functions = [
+            self.logOnGmx,
+            self.logOnSnapchat,
+        ]
+        for i in range(6):
+            t = threading.Thread(target = self.work, args = (self.emulators[i], self.flags[i]))
+            threads.append(t)
+            t.start()
 
 if __name__ == "__main__":
     try:

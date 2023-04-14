@@ -24,7 +24,12 @@ class Window(QWidget): # type: ignore
         self.setGeometry(self.left, self.top, self.width, self.height)
         self.setMinimumSize(QSize(self.width, self.height))       # type: ignore 
         self.setWindowTitle('Export Processor')
+        self.setPositions()
+        self.numTokens = []
+        self.numGhosts = []
+        self.numAdds = []
 
+    def setPositions(self):
         x = 70
         y = 20
 
@@ -44,32 +49,7 @@ class Window(QWidget): # type: ignore
         self.processLogContent.move(x - 85, y + 40)
         self.processLogContent.resize(298, 90)
 
-        self.numTokens = []
-        self.numGhosts = []
-        self.numAdds = []
-
-    def popUp(self):
-        desktopBadPath = os.path.expanduser("~/Desktop")
-        desktopPath = ''
-        for i in range(0, len(desktopBadPath)):
-            if desktopBadPath[i] == '\\':
-                desktopPath += '/'
-            else:
-                desktopPath += desktopBadPath[i]
-        box = QtWidgets.QMessageBox()
-        box.setIcon(QtWidgets.QMessageBox.Question)
-        box.setWindowTitle('Export')
-        box.setText('To which instances do you want to export the final folder?')
-        box.setStandardButtons(QtWidgets.QMessageBox.Yes|QtWidgets.QMessageBox.No|QtWidgets.QMessageBox.Close|QtWidgets.QMessageBox.Cancel)
-        buttonY = box.button(QtWidgets.QMessageBox.Yes)
-        buttonY.setText('1-6')
-        buttonN = box.button(QtWidgets.QMessageBox.No)
-        buttonN.setText('7-12')
-        buttonCl = box.button(QtWidgets.QMessageBox.Close)
-        buttonCl.setText('Custom')
-        buttonC = box.button(QtWidgets.QMessageBox.Cancel)
-        box.exec_()
-        self.indexes = []
+    def checkButton(self, box, buttonC, buttonY, buttonN, buttonCl):
         if box.clickedButton() == buttonC:
             self.processLogContent.setText("Export canceled.")
             QApplication.processEvents()       # type: ignore
@@ -88,12 +68,12 @@ class Window(QWidget): # type: ignore
                 begin, end = text.split("-")
                 for i in range(int(begin), int(end) + 1):
                     self.indexes.append(i)
+
+    def otherChecks(self):
         if len(self.indexes) == 0:
             self.processLogContent.setText('You have aborted export operation. Try again.')
             QApplication.processEvents()       # type: ignore
             return False
-        self.ATPath = desktopPath + '/AT.txt'
-        self.desktopUnusedEmailsPath = desktopPath + '/unused emails.txt'
         if os.path.isfile(self.ATPath) == False:
             self.processLogContent.setText("There are not AT.txt file on desktop.")
             QApplication.processEvents()       # type: ignore
@@ -106,6 +86,12 @@ class Window(QWidget): # type: ignore
                 QApplication.processEvents()       # type: ignore
                 self.copyDataButton.setDisabled(True)
                 return False
+
+    def execute(self, box, buttonC, buttonY, buttonN, buttonCl, desktopPath):
+        self.ATPath = desktopPath + '/AT.txt'
+        self.desktopUnusedEmailsPath = desktopPath + '/unused emails.txt'
+        self.checkButton()
+        self.otherChecks()
         self.ATFunction()
         for i in range(0, len(self.indexes)):
             self.accountPath = desktopPath + '/Instances/Instance #' + str(self.indexes[i]) + '/datastore/session/Accounts.txt'
@@ -114,6 +100,30 @@ class Window(QWidget): # type: ignore
             self.emailsFunction()
         self.processLogContent.setText("Export finished.")
         QApplication.processEvents()       # type: ignore
+
+    def popUp(self):
+        desktopRealPath = os.path.expanduser("~/Desktop")
+        desktopPath = ''
+        for i in range(0, len(desktopRealPath)):
+            if desktopRealPath[i] == '\\':
+                desktopPath += '/'
+            else:
+                desktopPath += desktopRealPath[i]
+        box = QtWidgets.QMessageBox()
+        box.setIcon(QtWidgets.QMessageBox.Question)
+        box.setWindowTitle('Export')
+        box.setText('To which instances do you want to export the final folder?')
+        box.setStandardButtons(QtWidgets.QMessageBox.Yes|QtWidgets.QMessageBox.No|QtWidgets.QMessageBox.Close|QtWidgets.QMessageBox.Cancel)
+        buttonY = box.button(QtWidgets.QMessageBox.Yes)
+        buttonY.setText('1-6')
+        buttonN = box.button(QtWidgets.QMessageBox.No)
+        buttonN.setText('7-12')
+        buttonCl = box.button(QtWidgets.QMessageBox.Close)
+        buttonCl.setText('Custom')
+        buttonC = box.button(QtWidgets.QMessageBox.Cancel)
+        box.exec_()
+        self.indexes = []
+        self.execute(box, buttonC, buttonY, buttonN, buttonCl, desktopPath)
 
     def accountsFunction(self):
         if os.path.isfile(self.accountPath) == False:
@@ -131,7 +141,7 @@ class Window(QWidget): # type: ignore
                 found = found.group(0).split(':')
                 like, match = int(found[1]), int(found[2])
             else:
-                print('Problem sa nalazenjem adds:matches u liniji ' + str(i))
+                print('Problem with finding adds in line ' + str(i))
                 return False
             if like == 99 and match > 0 or like >= 50 and match >= 30:
                 pass
@@ -158,11 +168,11 @@ class Window(QWidget): # type: ignore
             
     def copyData(self):
         msg = ''
-        print('Lista tokena:')
+        print('List of tokens:')
         print(self.numTokens)
-        print('Lista ghostova:')
+        print('Lista of ghosts:')
         print(self.numGhosts)
-        print('Lista adova:')
+        print('Lista of adds:')
         print(self.numAdds)
         for i in range(0, len(self.numTokens)):
             msg += self.numTokens[i] + ':' + self.numGhosts[i] + ':' + self.numAdds[i] + '\n'
