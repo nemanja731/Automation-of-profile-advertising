@@ -3,7 +3,10 @@ import numpy as np
 import os
 import re
 import pytesseract
+import time
 from pytesseract import Output
+from ppadb.client import Client as AdbClient
+from pynput.keyboard import Key, Controller         # type: ignore
 
 class OCR():
 
@@ -28,7 +31,9 @@ class OCR():
         threshImg = self.thresholding(grayImg)
         fgImg, bgImg = self.getFgBg(threshImg)
         self.showImages(img, resizedImg, blurImg, grayImg, threshImg, fgImg, bgImg)
-        self.ocr(img, grayImg, blurImg, threshImg)
+        self.ocrDetection(img, grayImg, blurImg, threshImg)
+        emulator = self.connectDevice()
+        self.recognizeTextOnDevice(emulator)
 
     def loading(self, imgDirPath):
         data = sorted([os.path.join(imgDirPath, file) for file in os.listdir(imgDirPath) if file.endswith('.png')])
@@ -92,7 +97,7 @@ class OCR():
         cv2.imshow("Foreground Image", fgImg)
         cv2.waitKey(0)
 
-    def ocr(self, img, grayImg, blurImg, threshImg):
+    def ocrDetection(self, img, grayImg, blurImg, threshImg):
         images = [img, grayImg, blurImg, threshImg]
         for i in range(len(images)):
             matchText = pytesseract.image_to_string(images[i], lang = "eng")
@@ -127,6 +132,39 @@ class OCR():
             img2 = cv2.rectangle(self, img, (int(b[1]), h - int(b[2])), (int(b[3]), h - int(b[4])), (255, 0, 0), 1)
         cv2.imshow('img', img2)
         cv2.waitKey(0)
+
+    def connectDevice(self):
+        pytesseract.pytesseract.tesseract_cmd = "C:/Users/Administrator/Downloads/tesseract-ocr/tesseract.exe"
+        client = AdbClient(host = "127.0.0.1", port = 5037)
+        while True:
+            try:
+                os.system('cmd /c "adb devices"')
+                emulator = client.device("emulator-5568")
+                break
+            except:
+                print('Try to connect to emulator-5568')
+                time.sleep(1)
+        print('Successufuly connected to emulator-5568!')
+        return emulator
+
+    def recognizeTextOnDevice(self, emulator):
+        emulator.shell("screencap -p /sdcard/screen.png")
+        emulator.pull("/sdcard/screen.png", r"C:\Users\Administrator\Desktop\Automatization\screen.png")
+        img = cv2.imread(r'C:\Users\Administrator\Desktop\Automatization\screen.png')
+        grayImg = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        _, threshImg = cv2.threshold(grayImg, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+        matchText1 = pytesseract.image_to_string(grayImg, lang='eng',config='--psm 6')
+        print(matchText1)
+        matchText2 = pytesseract.image_to_string(threshImg, lang='eng',config='--psm 6')
+        print(matchText2)
+        if re.search('Sign up with email instead', matchText1):
+            print('phone')
+        else:
+            print('mobile')
+        cv2.imshow('Original', img)
+        cv2.imshow('Gray image', grayImg)
+        cv2.imshow('Tresh image', threshImg)
+        cv2.waitKey()
 
 if __name__ == "__main__":
     ocr = OCR()
