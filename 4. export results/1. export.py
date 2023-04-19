@@ -62,7 +62,7 @@ class Window(QWidget): # type: ignore
                 text, ok = QInputDialog.getText(self, 'Custom range', 'Enter the range in the specified format, example: 9-12\nJust number-number, don\'t add space anywhere.')     # type: ignore
                 x = re.search("^[1-9]+[0-9]*\-[1-9]+[0-9]*$", text)
                 if x == None:
-                    self.processLogContent.setText('Custom didn\'t execute because incorrect input. Try again.')
+                    self.processLogContent.setText('Custom didn\'t execute because of incorrect input. Try again.')
                     QApplication.processEvents()       # type: ignore
                     return False
                 begin, end = text.split("-")
@@ -87,20 +87,6 @@ class Window(QWidget): # type: ignore
                 self.copyDataButton.setDisabled(True)
                 return False
 
-    def execute(self, box, buttonC, buttonY, buttonN, buttonCl, desktopPath):
-        self.ATPath = desktopPath + '/AT.txt'
-        self.desktopUnusedEmailsPath = desktopPath + '/unused emails.txt'
-        self.checkButton()
-        self.otherChecks()
-        self.ATFunction()
-        for i in range(0, len(self.indexes)):
-            self.accountPath = desktopPath + '/Instances/Instance #' + str(self.indexes[i]) + '/datastore/session/Accounts.txt'
-            self.unusedEmailsPath = desktopPath + '/Instances/Instance #' + str(self.indexes[i]) + '/datastore/UnusedEmailAddresses.txt'
-            self.accountsFunction()
-            self.emailsFunction()
-        self.processLogContent.setText("Export finished.")
-        QApplication.processEvents()       # type: ignore
-
     def popUp(self):
         desktopRealPath = os.path.expanduser("~/Desktop")
         desktopPath = ''
@@ -124,6 +110,20 @@ class Window(QWidget): # type: ignore
         box.exec_()
         self.indexes = []
         self.execute(box, buttonC, buttonY, buttonN, buttonCl, desktopPath)
+
+    def execute(self, box, buttonC, buttonY, buttonN, buttonCl, desktopPath):
+        self.ATPath = desktopPath + '/AT.txt'
+        self.desktopUnusedEmailsPath = desktopPath + '/unused emails.txt'
+        self.checkButton()
+        self.otherChecks()
+        self.ATFunction()
+        for i in range(0, len(self.indexes)):
+            self.accountPath = desktopPath + '/Instances/Instance #' + str(self.indexes[i]) + '/datastore/session/Accounts.txt'
+            self.unusedEmailsPath = desktopPath + '/Instances/Instance #' + str(self.indexes[i]) + '/datastore/UnusedEmailAddresses.txt'
+            self.accountsFunction()
+            self.emailsFunction()
+        self.processLogContent.setText("Export finished.")
+        QApplication.processEvents()       # type: ignore
 
     def accountsFunction(self):
         if os.path.isfile(self.accountPath) == False:
