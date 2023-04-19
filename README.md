@@ -32,7 +32,7 @@ This folder contains four scripts:
 - _commands.py_ -> contains various commands used when working with emulators
 - _setupEmulators.py_ -> creates and configures emulators to run
 - _run.py_ -> run emulators, create a Snapchat account and accept adds
-- _ocr.py_ -> -> contains functions for OCR
+- _ocr.py_ -> contains functions for OCR
 
 This folder is responsible for running emulators on the computer that simulate the mobile device. First, emulators are built and tuned. Then the emulators are started, each emulator downloads the snapchat application, registers the user, adjusts his profile and uploads promotions, all with the help of OCR. At the end of the day, the number of people who added a user is collected so that the emulator enters snapchat, goes to the list of new adds and accepts each add in turn, counting how many there were
 
