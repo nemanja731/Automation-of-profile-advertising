@@ -4,6 +4,8 @@
 
 The project is divided into 4 folders. Certain operations are performed in each folder, which are logically divided into scripts. The scripts are not interconnected, they are called individually because some of them exchange data with other, licensed programs.
 
+<img align='center' alt = 'Automation' width = '400' src = 'https://www.learninglinksindia.org/public/images/screen-manages.gif'>
+
 ## 1. Folder - _Prepare data_
 
 ## 2. Folder - _Make promotion_
