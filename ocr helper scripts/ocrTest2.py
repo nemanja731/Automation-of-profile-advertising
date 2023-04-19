@@ -31,7 +31,6 @@ def swipe(emulator, device):
     x1 = str(random.randint(-150, 150) + 250)
     x2 = x1
     y1, y2 = '800', '520'
-    swipe_time = '5'
     device.shell("input swipe " + str(x1) + " 572 " + str(x2) + " 174 2000")
     emulator.shell("input swipe " + x1 + ' ' + y1 + ' ' + x2 + ' ' + y2)
 
