@@ -1,12 +1,11 @@
 import os
-from PyQt5 import uic, QtWidgets, QtCore
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
+from PyQt5 import uic, QtWidgets, QtCore        # type: ignore
+from PyQt5.QtWidgets import *                   # type: ignore
+from PyQt5.QtCore import *                      # type: ignore
+from PyQt5.QtGui import *                       # type: ignore
 import sys
 
-#class for spintax
-class Window(QWidget): # type: ignore
+class Window(QWidget):                          # type: ignore
     def __init__(self, parent = None):
         super(Window, self).__init__(parent)
         self.initUI()
@@ -20,7 +19,7 @@ class Window(QWidget): # type: ignore
         self.height = 210
         self.setGeometry(self.left, self.top, self.width, self.height)
         self.setMinimumSize(QSize(self.width, self.height))       # type: ignore 
-        self.setWindowTitle('Check enough data')
+        self.setWindowTitle('Show current amount of data')
 
         x = 0
         y = 0
@@ -34,19 +33,19 @@ class Window(QWidget): # type: ignore
         self.processLogContent.resize(300,130)
 
     def check(self):
-        gmxPath = './First Processor/gmx.txt'
+        gmxPath = './gmx.txt'
         with open(gmxPath, 'r') as Reader:
             lines = Reader.readlines()
-        mailsPath = './Traffic Processor/data/files/EmailAddresses.txt'
+        mailsPath = './data/files/EmailAddresses.txt'
         numGmx = len(lines)
         with open(mailsPath, 'r') as Reader:
             lines = Reader.readlines()
         numMails = len(lines)
-        biographiesPath = './Traffic Processor/data/files/Biography.txt'
+        biographiesPath = './data/files/Biography.txt'
         with open(biographiesPath, 'r') as Reader:
             lines = Reader.readlines()
         numBiographies = len(lines)
-        firstNamesPath = './Traffic Processor/data/files/FirstNames.txt'
+        firstNamesPath = './data/files/FirstNames.txt'
         with open(firstNamesPath, 'r') as Reader:
             lines = Reader.readlines()
         numNames = len(lines)
