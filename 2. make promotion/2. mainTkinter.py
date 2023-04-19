@@ -30,11 +30,7 @@ class Application(tk.Tk):
     def createTabs(self):
        self.notebook = ttk.Notebook()
        self.tab1 = Tab1(self.notebook)
-       self.tab2 = Tab2(self.notebook)
-       self.tab3 = Tab3(self.notebook) 
        self.notebook.add(self.tab1,text="Generator")
-       self.notebook.add(self.tab2,text="Trades")
-       self.notebook.add(self.tab3,text="Profit")
        self.notebook.grid(row=0, column=0, sticky='nsew')
 
 #an abstract class inherited by all tabs

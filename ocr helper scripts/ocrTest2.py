@@ -11,7 +11,7 @@ import time
 import tkinter as tk
 from datetime import date
 from ppadb.client import Client as AdbClient
-from pynput.keyboard import Key, Controller
+from pynput.keyboard import Key, Controller         # type: ignore
 
 def touch(emulator, x, y, dx = 0, dy = 0, doubleClick = False):
     time.sleep(1)
@@ -23,7 +23,7 @@ def touch(emulator, x, y, dx = 0, dy = 0, doubleClick = False):
         emulator.shell(msg)
     time.sleep(1)
 
-def swipe(emulator):
+def swipe(emulator, device):
     global counter
     counter += 1
     print(counter)
@@ -77,5 +77,5 @@ if __name__ == '__main__':
     global counter 
     counter = 0
     for i in range(30):
-        swipe(emulator)
+        swipe(emulator, emulator)
     recognizeText(emulator)

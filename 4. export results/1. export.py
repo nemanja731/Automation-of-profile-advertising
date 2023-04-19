@@ -2,11 +2,11 @@ import codecs
 import os
 import pyperclip
 import re
-from PyQt5 import QtWidgets, QtCore
-from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
+from PyQt5 import QtWidgets, QtCore             # type: ignore
+from PyQt5 import QtWidgets                     # type: ignore
+from PyQt5.QtWidgets import *                   # type: ignore
+from PyQt5.QtCore import *                      # type: ignore
+from PyQt5.QtGui import *                       # type: ignore
 
 #class for spintax
 class Window(QWidget): # type: ignore

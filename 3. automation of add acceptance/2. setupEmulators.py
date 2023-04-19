@@ -5,13 +5,13 @@ import shutil
 import subprocess
 import time
 from ppadb.client import Client as AdbClient
-from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
+from PyQt5 import QtCore, QtWidgets         # type: ignore 
+from PyQt5.QtWidgets import *               # type: ignore 
+from PyQt5.QtCore import *                  # type: ignore 
+from PyQt5.QtGui import *                   # type: ignore 
 
 #Window is the main class that represents our GUI. It contains tabs, and each tab is created as a separate class
-class Window(QTabWidget):
+class Window(QTabWidget):                   # type: ignore 
    def __init__(self, parent = None):
       super(Window, self).__init__(parent)
 
@@ -26,7 +26,7 @@ class Window(QTabWidget):
       self.show()
 
 #Tab3 is a class that represents the third tab on the GUI, handled by spintax
-class Tab1(QWidget):
+class Tab1(QWidget):                        # type: ignore 
     def __init__(self):
         super(Tab1, self).__init__()
         self.title = 'Acceptor'
@@ -50,64 +50,64 @@ class Tab1(QWidget):
 
     #exit the application
     def exitFunction(self):
-        QApplication.quit()
+        QApplication.quit()                                                                 # type: ignore 
 
     def setupSnaps(self):
-        self.getAvailableSnapUsernameButton = QPushButton('Get snap\nusername', self)
+        self.getAvailableSnapUsernameButton = QPushButton('Get snap\nusername', self)       # type: ignore 
         self.getAvailableSnapUsernameButton.clicked.connect(self.getAvailableSnapUsername)
         self.getAvailableSnapUsernameButton.adjustSize()
         self.getAvailableSnapUsernameButton.move(20, 60)
-        self.snapUsernameLabel = QLabel('Snap username:', self)
+        self.snapUsernameLabel = QLabel('Snap username:', self)                             # type: ignore 
         self.snapUsernameLabel.adjustSize()
         self.snapUsernameLabel.move(130, 70)
-        self.snapUsernameLineEdit = QLineEdit('', self)
+        self.snapUsernameLineEdit = QLineEdit('', self)                                     # type: ignore 
         self.snapUsernameLineEdit.adjustSize()
         self.snapUsernameLineEdit.move(235, 68)
 
     def setupCreationOfEmulators(self):
-        self.createNewEmulatorsLabel = QLabel('Num emulators:', self)
+        self.createNewEmulatorsLabel = QLabel('Num emulators:', self)                       # type: ignore 
         self.createNewEmulatorsLabel.adjustSize()
         self.createNewEmulatorsLabel.move(20, 130)
-        self.createNewEmulatorsLineEdit = QLineEdit('', self)
+        self.createNewEmulatorsLineEdit = QLineEdit('', self)                               # type: ignore 
         self.createNewEmulatorsLineEdit.adjustSize()
         self.createNewEmulatorsLineEdit.move(125, 128)
-        self.createNewEmulatorsLabel2 = QLabel('From position:', self)
+        self.createNewEmulatorsLabel2 = QLabel('From position:', self)                      # type: ignore 
         self.createNewEmulatorsLabel2.adjustSize()
         self.createNewEmulatorsLabel2.move(20, 160)
-        self.createNewEmulatorsLineEdit2 = QLineEdit('', self)
+        self.createNewEmulatorsLineEdit2 = QLineEdit('', self)                              # type: ignore 
         self.createNewEmulatorsLineEdit2.adjustSize()
         self.createNewEmulatorsLineEdit2.move(125, 158)
-        self.createNewEmulatorsButton = QPushButton('Create new\nemulators', self)
+        self.createNewEmulatorsButton = QPushButton('Create new\nemulators', self)          # type: ignore 
         self.createNewEmulatorsButton.clicked.connect(self.createNewEmulators)
         self.createNewEmulatorsButton.adjustSize()
         self.createNewEmulatorsButton.move(280, 135)
 
     def setupEmulatorsLabelAndInput(self):
-        self.emulatorsLabelInfo = QLabel('Two possible formats for specific emulators. First is [2-5] and\nsecond one is 2 3 4 5. The first format is provided if the emulators\nare listed in order to make input easier, while the second format\nis for the specified emulators.', self)
+        self.emulatorsLabelInfo = QLabel('Two possible formats for specific emulators. First is [2-5] and\nsecond one is 2 3 4 5. The first format is provided if the emulators\nare listed in order to make input easier, while the second format\nis for the specified emulators.', self) # type: ignore 
         self.emulatorsLabelInfo.adjustSize()
         self.emulatorsLabelInfo.move(20, 200)
-        self.emulatorsLabel = QLabel('Emulators:', self)
+        self.emulatorsLabel = QLabel('Emulators:', self)                                # type: ignore 
         self.emulatorsLabel.adjustSize()
         self.emulatorsLabel.move(20, 300)
-        self.emulatorsLineEdit = QLineEdit('', self)
+        self.emulatorsLineEdit = QLineEdit('', self)                                    # type: ignore 
         self.emulatorsLineEdit.adjustSize()
         self.emulatorsLineEdit.move(90, 298)
 
     def setupEmulatorsButton(self):
         #start button
-        self.startEmulatorsButton = QPushButton('Start\nemulators', self)
+        self.startEmulatorsButton = QPushButton('Start\nemulators', self)               # type: ignore 
         self.startEmulatorsButton.clicked.connect(self.startEmulators)
         self.startEmulatorsButton.setStyleSheet("color: white; background-color : green")
         self.startEmulatorsButton.adjustSize()
         self.startEmulatorsButton.move(40, 350)
         #stop button
-        self.stopEmulatorsButton = QPushButton('Stop\nemulators', self)
+        self.stopEmulatorsButton = QPushButton('Stop\nemulators', self)                 # type: ignore 
         self.stopEmulatorsButton.clicked.connect(self.stopEmulators)
         self.stopEmulatorsButton.setStyleSheet("background-color : red")
         self.stopEmulatorsButton.adjustSize()
         self.stopEmulatorsButton.move(40, 400)
         #delete button
-        self.deleteEmulatorsButton = QPushButton('Delete\nemulators', self)
+        self.deleteEmulatorsButton = QPushButton('Delete\nemulators', self)             # type: ignore 
         self.deleteEmulatorsButton.clicked.connect(self.deleteEmulators)
         self.deleteEmulatorsButton.adjustSize()
         self.deleteEmulatorsButton.move(160,375)
@@ -131,22 +131,22 @@ class Tab1(QWidget):
 
     def setupOtherButtons(self):
         #accept button
-        self.accceptButton = QPushButton('Accept\nadds', self)
+        self.accceptButton = QPushButton('Accept\nadds', self)                          # type: ignore 
         self.accceptButton.clicked.connect(self.acceptAdds)
         self.accceptButton.adjustSize()
         self.accceptButton.move(160, 550)
         #automate accept button
-        self.acceptAutomateButton = QPushButton('Accept\nadds A', self)
+        self.acceptAutomateButton = QPushButton('Accept\nadds A', self)                 # type: ignore 
         self.acceptAutomateButton.clicked.connect(self.acceptAddsAutomate)
         self.acceptAutomateButton.adjustSize()
         self.acceptAutomateButton.move(40, 550)
         #clear button
-        self.clearGUIButton = QPushButton('Clear\nGUI', self)
+        self.clearGUIButton = QPushButton('Clear\nGUI', self)                           # type: ignore 
         self.clearGUIButton.clicked.connect(self.clearGUI)
         self.clearGUIButton.adjustSize()
         self.clearGUIButton.move(470, 275)
         #exit button
-        self.exitButton = QPushButton('Exit', self)
+        self.exitButton = QPushButton('Exit', self)                                     # type: ignore 
         self.exitButton.clicked.connect(self.exitFunction)
         self.exitButton.setStyleSheet("background-color : red")
         self.exitButton.adjustSize()
@@ -154,18 +154,18 @@ class Tab1(QWidget):
 
     def setupNumAddsAndProcess(self):
         #number adds for accepting
-        self.numAddsToAcceptLabel = QLabel('Num adds to accept:', self)
+        self.numAddsToAcceptLabel = QLabel('Num adds to accept:', self)                 # type: ignore 
         self.numAddsToAcceptLabel.adjustSize()
         self.numAddsToAcceptLabel.move(20, 500)
-        self.numAddsToAcceptLineEdit = QLineEdit('', self)
+        self.numAddsToAcceptLineEdit = QLineEdit('', self)                              # type: ignore 
         self.numAddsToAcceptLineEdit.adjustSize()
         self.numAddsToAcceptLineEdit.move(150, 498)
         #log for process
-        self.processLogLabel = QLabel('Process log', self)
+        self.processLogLabel = QLabel('Process log', self)                              # type: ignore 
         self.processLogLabel.setStyleSheet("background-color : yellow")
         self.processLogLabel.adjustSize()
         self.processLogLabel.move(540, 20)
-        self.processLogContent = QTextEdit('Have a good day my friend.', self)
+        self.processLogContent = QTextEdit('Have a good day my friend.', self)          # type: ignore 
         self.processLogContent.adjustSize()
         self.processLogContent.move(450, 50)
 
@@ -189,7 +189,7 @@ class Tab1(QWidget):
     def getAvailableSnapUsername(self):
         if len(self.snaps) == 0:
             self.processLogContent.setText('No more snap username available.')
-            QApplication.processEvents()
+            QApplication.processEvents()                # type: ignore 
             self.processLogContent.adjustSize()
         else:
             self.currentSnapID += 1
@@ -240,7 +240,7 @@ class Tab1(QWidget):
         numEmulatorsForCreating = int(self.createNewEmulatorsLineEdit.text())
         for e in range(numEmulatorsForCreating): 
             self.processLogContent.setText('Process started. Please wait.')
-            QApplication.processEvents()
+            QApplication.processEvents()                # type: ignore 
             self.processLogContent.adjustSize()
             time.sleep(3)
             self.cloningInCreation(e)
@@ -252,30 +252,30 @@ class Tab1(QWidget):
             pyautogui.write(self.snaps[i], interval = 0.1)
             i += 1
             self.processLogContent.setText(str(e) + '. emulator was created. Please wait for others.')
-            QApplication.processEvents()
+            QApplication.processEvents()                # type: ignore 
             self.processLogContent.adjustSize()
         endTime = time.time()
         elapsedTime = endTime - startTime
         self.processLogContent.setText('The process is complete. Time elapsed: ' + '{:.2f}'.format(elapsedTime))
-        QApplication.processEvents()
+        QApplication.processEvents()                    # type: ignore 
         self.processLogContent.adjustSize()
 
     def createNewEmulators(self):
         if self.createNewEmulatorsLineEdit.text() == '':
             self.processLogContent.setText('Please enter the number of emulators you want to create.')
             self.processLogContent.adjustSize
-            QApplication.processEvents()
+            QApplication.processEvents()                # type: ignore 
         elif self.createNewEmulatorsLineEdit2.text() == '':
             self.processLogContent.setText('Please enter a first empty position for creating emulators.')
             self.processLogContent.adjustSize
-            QApplication.processEvents()
+            QApplication.processEvents()                # type: ignore 
         else:
             self.create()
 
     def deleteEmulatorsFunction(self):
         for e in self.emulators: 
             self.processLogContent.setText('Process started. Please wait.')
-            QApplication.processEvents()
+            QApplication.processEvents()                # type: ignore 
             self.processLogContent.adjustSize()
             #delete the emulator
             pyautogui.moveTo(self.LDMultiplayerDeletexy[0], self.LDMultiplayerDeletexy[1] + self.LDMultiplayerDeltaY * (int(e) - 1 - k), 1)
@@ -289,14 +289,14 @@ class Tab1(QWidget):
             time.sleep(4)
             k += 1
             self.processLogContent.setText(str(e) + '. emulator was deleted. Please wait for others.')
-            QApplication.processEvents()
+            QApplication.processEvents()                # type: ignore 
             self.processLogContent.adjustSize()
 
     def deleteEmulators(self):
         if self.emulatorsLineEdit.text() == '':
             self.processLogContent.setText('Please enter which emulators you want to delete.')
             self.processLogContent.adjustSize()
-            QApplication.processEvents()
+            QApplication.processEvents()                # type: ignore 
         else:
             self.inputEmulators()
             subprocess.Popen(self.LDMultiplayerPath)
@@ -308,13 +308,13 @@ class Tab1(QWidget):
             endTime = time.time()
             elapsedTime = endTime - startTime
             self.processLogContent.setText('The process is complete. Time elapsed: ' + '{:.2f}'.format(elapsedTime))
-            QApplication.processEvents()
+            QApplication.processEvents()                # type: ignore 
             self.processLogContent.adjustSize()
 
     def startEmulatorsFunction(self):
         for e in self.emulators:  
             self.processLogContent.setText('Process started. Please wait.')
-            QApplication.processEvents()
+            QApplication.processEvents()                # type: ignore 
             self.processLogContent.adjustSize()
             #running the emulator
             pyautogui.moveTo(self.LDMultiplayerFirstStartxy[0], self.LDMultiplayerFirstStartxy[1] + (int(e) - 1)*self.LDMultiplayerDeltaY, 1)
@@ -326,7 +326,7 @@ class Tab1(QWidget):
             time.sleep(0.5)
             pyautogui.click(self.LDMultiplayerBlankxy[0], self.LDMultiplayerBlankxy[1])
             self.processLogContent.setText(str(e) + '. emulator is running. Please wait for others.')
-            QApplication.processEvents()
+            QApplication.processEvents()                # type: ignore 
             self.processLogContent.adjustSize()
             o = 17
             if k>2:
@@ -338,7 +338,7 @@ class Tab1(QWidget):
         if self.emulatorsLineEdit.text() == '':
             self.processLogContent.setText('Please enter which emulators you want to run.')
             self.processLogContent.adjustSize
-            QApplication.processEvents()
+            QApplication.processEvents()                # type: ignore 
         else:
             self.inputEmulators()
             subprocess.Popen(self.LDMultiplayerPath)
@@ -349,13 +349,13 @@ class Tab1(QWidget):
             endTime = time.time()
             elapsedTime = endTime - startTime
             self.processLogContent.setText('The process is complete. Time elapsed: ' + '{:.2f}'.format(elapsedTime))
-            QApplication.processEvents()
+            QApplication.processEvents()                # type: ignore 
             self.processLogContent.adjustSize()
 
     def stopEmulatorsFunction(self):
         for e in self.emulators:
             self.processLogContent.setText('Process started. Please wait.')
-            QApplication.processEvents()
+            QApplication.processEvents()                # type: ignore 
             self.processLogContent.adjustSize()
             #stop running emulator, same button as start
             pyautogui.moveTo(self.LDMultiplayerFirstStartxy[0], self.LDMultiplayerFirstStartxy[1] + (int(e) - 1)*self.LDMultiplayerDeltaY, 1)
@@ -372,7 +372,7 @@ class Tab1(QWidget):
             time.sleep(0.5)
             pyautogui.click(self.LDMultiplayerBlankxy[0], self.LDMultiplayerBlankxy[1])
             self.processLogContent.setText(str(e) + '. emulator is stopped. Please wait for others.')
-            QApplication.processEvents()
+            QApplication.processEvents()                # type: ignore 
             self.processLogContent.adjustSize()
             time.sleep(3)
 
@@ -380,7 +380,7 @@ class Tab1(QWidget):
         if self.emulatorsLineEdit.text() == '':
             self.processLogContent.setText('Please enter which emulators you want to stop.')
             self.processLogContent.adjustSize
-            QApplication.processEvents()
+            QApplication.processEvents()                # type: ignore 
         else:
             self.inputEmulators()
             subprocess.Popen(self.LDMultiplayerPath)
@@ -390,7 +390,7 @@ class Tab1(QWidget):
             endTime = time.time()
             elapsedTime = endTime - startTime
             self.processLogContent.setText('The process is complete. Time elapsed: ' + '{:.2f}'.format(elapsedTime))
-            QApplication.processEvents()
+            QApplication.processEvents()                # type: ignore 
             self.processLogContent.adjustSize()
         
     def turnOnProxy(self, device):
@@ -506,6 +506,6 @@ class Tab1(QWidget):
         x, y = pyautogui.position()
 
 if __name__ == "__main__":
-    app = QApplication([])
+    app = QApplication([])      # type: ignore 
     w = Window()
     app.exec_()

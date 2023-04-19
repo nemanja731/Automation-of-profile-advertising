@@ -11,7 +11,7 @@ import time
 import tkinter as tk
 from datetime import date
 from ppadb.client import Client as AdbClient
-from pynput.keyboard import Key, Controller
+from pynput.keyboard import Key, Controller             # type: ignore 
 
 class Application(tk.Frame):
     def __init__(self, master=None):
@@ -481,7 +481,7 @@ class Application(tk.Frame):
             return emulatorsNames
         return []
 
-    def startWithSetupEmulators(self):
+    def startWithSetupEmulators(self, start, client, emulatorsNames):
         time.sleep(1)
         self.moveAndClick(1088, 399)      #display LD multiplayer app
         self.moveAndClick(1094, 630)      #scroll down
@@ -516,7 +516,7 @@ class Application(tk.Frame):
             [861, 574],
             [859, 627]
         ]
-        self.startWithSetupEmulators()
+        self.startWithSetupEmulators(start, client, emulatorsNames)
         self.finishFunction()
         self.renameEmulators()
 
