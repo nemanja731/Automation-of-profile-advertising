@@ -22,14 +22,14 @@ class Window(QTabWidget):                   # type: ignore
       self.setGeometry(self.left, self.top, self.width, self.height)
       self.setWindowTitle("GUI")
       self.tab1 = Tab1()
-      self.addTab(self.tab1, 'Acceptor')
+      self.addTab(self.tab1, 'Setup emulator')
       self.show()
 
 #Tab3 is a class that represents the third tab on the GUI, handled by spintax
 class Tab1(QWidget):                        # type: ignore 
     def __init__(self):
         super(Tab1, self).__init__()
-        self.title = 'Acceptor'
+        self.title = 'Setup emulator'
         self.left = 500
         self.top = 190
         self.width = 800
