@@ -2,13 +2,12 @@ import os
 import pyperclip
 import shutil
 from datetime import date
-from PyQt5 import uic, QtWidgets, QtCore
-from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
+from PyQt5 import uic, QtWidgets, QtCore    # type: ignore 
+from PyQt5 import QtWidgets                 # type: ignore 
+from PyQt5.QtWidgets import *               # type: ignore 
+from PyQt5.QtCore import *                  # type: ignore 
+from PyQt5.QtGui import *                   # type: ignore 
 
-#class for spintax
 class Window(QWidget): # type: ignore
     def __init__(self, parent = None):
         super(Window, self).__init__(parent)
@@ -23,7 +22,7 @@ class Window(QWidget): # type: ignore
         self.height = 390
         self.setGeometry(self.left, self.top, self.width, self.height)
         self.setMinimumSize(QSize(self.width, self.height))       # type: ignore 
-        self.setWindowTitle('Arrange files')
+        self.setWindowTitle('Prepare files')
         x = 100
         y = 20
         self.setCopyParts(x, y)
@@ -116,6 +115,7 @@ class Window(QWidget): # type: ignore
         self.fileName = ''
         self.usernames = []
 
+    #when starting the GUI, a pop-up window pops up
     def popUp(self):
         text, ok = QInputDialog.getText(self, 'Num emulators', 'Enter the number of emulators you want to process:') # type: ignore
         if text.isdigit() == False or text == '0':
@@ -129,7 +129,10 @@ class Window(QWidget): # type: ignore
             self.processLogContent.setText('')
             QApplication.processEvents()       # type: ignore
             self.checkEnoughData()
+            self.makeOutputFile()
+            self.extract()
 
+    #change the state of the button
     def changeButtons(self, flag):
         self.nextButton.setDisabled(flag)
         self.processLogLabel.setDisabled(flag)
@@ -140,24 +143,6 @@ class Window(QWidget): # type: ignore
         self.copySnapPasswordButton.setDisabled(flag)
 
     def checkEnoughData(self):
-        self.checkFiles()
-        self.makeOutputFile()
-        self.extractSnapNames()
-        self.extractData()
-        self.extractSnapUsernames()
-        if len(self.snapUsernames) < self.numEmulators:
-            self.processLogContent.setText('There are not enough snap usernames. You need ' + str(self.numEmulators) + ' usernames, but you have only ' + str(len(self.snapUsernames)) + ' usernames.')
-            QApplication.processEvents()       # type: ignore
-            self.changeButtons(True)
-            return
-        msg = self.gmxMails[self.index] + '\n' + self.gmxPasswords[self.index] + '\n' + self.snapNames[self.index] + '\n' + self.snapPasswords[self.index] + '\n'
-        self.msg = self.gmxMails[self.index] + '\n' + self.gmxPasswords[self.index] + '\n' + self.snapNames[self.index] + '\n' + self.snapPasswords[self.index]
-        self.processLogContent.setText(msg)
-        if self.numEmulators == 1:
-            self.nextButton.setDisabled(True)
-            self.finishButton.setDisabled(False)
-
-    def checkFiles(self):
         with open('./gmx.txt', "r") as Reader:
             lines = Reader.readlines()
             if len(lines) < self.numEmulators:
@@ -177,6 +162,7 @@ class Window(QWidget): # type: ignore
             Writer.writelines(self.fullGmx) 
             self.fullGmx[self.numEmulators - 1] += '\n'
 
+    #in final file result will be placed
     def makeOutputFile(self):
         today = date.today()
         s = today.strftime("%d %m")
@@ -185,6 +171,23 @@ class Window(QWidget): # type: ignore
         self.fileName = '../' + d + '.' + m + '.txt'
         with open(self.fileName, 'w') as Writer:
             pass
+
+    #extract data
+    def extract(self):
+        self.extractSnapNames()
+        self.extractData()
+        self.extractSnapUsernames()
+        if len(self.snapUsernames) < self.numEmulators:
+            self.processLogContent.setText('There are not enough snap usernames. You need ' + str(self.numEmulators) + ' usernames, but you have only ' + str(len(self.snapUsernames)) + ' usernames.')
+            QApplication.processEvents()       # type: ignore
+            self.changeButtons(True)
+            return
+        msg = self.gmxMails[self.index] + '\n' + self.gmxPasswords[self.index] + '\n' + self.snapNames[self.index] + '\n' + self.snapPasswords[self.index] + '\n'
+        self.msg = self.gmxMails[self.index] + '\n' + self.gmxPasswords[self.index] + '\n' + self.snapNames[self.index] + '\n' + self.snapPasswords[self.index]
+        self.processLogContent.setText(msg)
+        if self.numEmulators == 1:
+            self.nextButton.setDisabled(True)
+            self.finishButton.setDisabled(False)
 
     def extractSnapNames(self):
         self.scNamesMainTxt = './Names for SC.txt'
@@ -272,10 +275,10 @@ class Window(QWidget): # type: ignore
                 for i in range(0, len(self.usernames)):
                     if i == len(self.usernames) - 1:
                         Writer.write(self.usernames[i])
-                        Writer2.write('{add me on|follow me on|join me on} snapchat: ' + self.usernames[i])
+                        Writer2.write('{for better results, add me on|follow my progress on |join my progress on} snapchat: ' + self.usernames[i])
                     else:
                         Writer.write(self.usernames[i] + '\n')
-                        Writer2.write('{add me on|follow me on|join me on} snapchat: ' + self.usernames[i] + '\n')
+                        Writer2.write('{for better results, add me on|follow my progress on |join my progress on} snapchat: ' + self.usernames[i] + '\n')
 
     def finishFunction(self):
         self.nextFunction()
