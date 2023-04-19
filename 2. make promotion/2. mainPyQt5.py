@@ -8,13 +8,13 @@ import time
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
-from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
+from PyQt5 import QtCore, QtWidgets         # type: ignore
+from PyQt5.QtWidgets import *               # type: ignore
+from PyQt5.QtCore import *                  # type: ignore
+from PyQt5.QtGui import *                   # type: ignore
 
 #Window is the main class that represents the GUI. It contains tabs, and each tab is created as a separate class
-class Window(QTabWidget):
+class Window(QTabWidget):                   # type: ignore
    def __init__(self, parent = None):
       super(Window, self).__init__(parent)
       self.left = 500
@@ -32,7 +32,7 @@ class Window(QTabWidget):
       self.show()
 
 #Tab1 is the class that represents the first tab of the GUI, it is the most complex
-class Tab1(QWidget):
+class Tab1(QWidget):                        # type: ignore
     def __init__(self):
         super(Tab1, self).__init__()
         self.title = 'Generator'
@@ -92,130 +92,130 @@ class Tab1(QWidget):
         self.watermarkTemplatePath = self.dataPath + '/watermarkTemplate.png'
 
     def setupProcessLogSection(self):
-        self.processLogLabel = QLabel('Process Log', self)
+        self.processLogLabel = QLabel('Process Log', self)                      # type: ignore
         self.processLogLabel.adjustSize()
         self.processLogLabel.move(420, 480)
         self.processLogLabel.setStyleSheet("background-color : yellow")
-        self.processLogContent = QTextEdit('Good day my friend!', self)
+        self.processLogContent = QTextEdit('Good day my friend!', self)         # type: ignore
         self.processLogContent.adjustSize()
         self.processLogContent.move(330, 510)
 
     def setupMainButtonsSection(self):
-        self.generateButton = QPushButton('Generate', self)
+        self.generateButton = QPushButton('Generate', self)                     # type: ignore
         self.generateButton.clicked.connect(self.generateFunction)
         self.generateButton.setStyleSheet("background-color : green")
         self.generateButton.adjustSize()
         self.generateButton.move(100, 650)
 
-        self.exitButton = QPushButton('Exit', self)
+        self.exitButton = QPushButton('Exit', self)                             # type: ignore
         self.exitButton.clicked.connect(self.exitFunction)
         self.exitButton.setStyleSheet("background-color : red")
         self.exitButton.adjustSize()
         self.exitButton.move(650, 650)
 
-        self.RedoButton = QPushButton('Redo', self)
+        self.RedoButton = QPushButton('Redo', self)                             # type: ignore
         self.RedoButton.clicked.connect(self.redoWrite)
         self.RedoButton.adjustSize()
         self.RedoButton.move(330, 80)
 
     def setupFilesSection(self):
-        self.selectAllFilesButton = QPushButton('Select All', self)
+        self.selectAllFilesButton = QPushButton('Select All', self)             # type: ignore
         self.selectAllFilesButton.clicked.connect(self.selectAllFilesFunction)
         self.selectAllFilesButton.adjustSize()
         self.selectAllFilesButton.move(350, 250)
 
-        self.biosCheckBox = QCheckBox("Bios", self)
+        self.biosCheckBox = QCheckBox("Bios", self)                             # type: ignore
         self.biosCheckBox.adjustSize()
         self.biosCheckBox.move(370, 290)
 
-        self.jobsCheckBox = QCheckBox("Jobs", self)
+        self.jobsCheckBox = QCheckBox("Jobs", self)                             # type: ignore
         self.jobsCheckBox.adjustSize()
         self.jobsCheckBox.move(370, 320)
 
-        self.namesCheckBox = QCheckBox("Names", self)
+        self.namesCheckBox = QCheckBox("Names", self)                           # type: ignore
         self.namesCheckBox.adjustSize()
         self.namesCheckBox.move(370, 350)
 
-        self.emailsCheckBox = QCheckBox("Emails", self)
+        self.emailsCheckBox = QCheckBox("Emails", self)                         # type: ignore
         self.emailsCheckBox.adjustSize()
         self.emailsCheckBox.move(370, 380)
 
-        self.locationsCheckBox = QCheckBox("locations", self)
+        self.locationsCheckBox = QCheckBox("locations", self)                   # type: ignore
         self.locationsCheckBox.adjustSize()
         self.locationsCheckBox.move(370, 410)
 
     def setupPrefixSection(self):
-        self.setImageAsLabel = QLabel('Set watermarked\n   Image as:', self)
+        self.setImageAsLabel = QLabel('Set watermarked\n   Image as:', self)    # type: ignore
         self.setImageAsLabel.adjustSize()
         self.setImageAsLabel.move(490, 250)
 
-        self.selectAllPrefixesButton = QPushButton('Select All', self)
+        self.selectAllPrefixesButton = QPushButton('Select All', self)          # type: ignore
         self.selectAllPrefixesButton.clicked.connect(self.selectAllPrefixesFunction)
         self.selectAllPrefixesButton.adjustSize()
         self.selectAllPrefixesButton.move(20, 110)
 
-        self.prefix1 = QCheckBox("trade ", self)
+        self.prefix1 = QCheckBox("trade ", self)                                # type: ignore
         self.prefix1.adjustSize()
         self.prefix1.move(20, 150)
 
-        self.prefix2 = QCheckBox("trade - ", self)
-        self.prefix2.adjustSize()
+        self.prefix2 = QCheckBox("trade - ", self)                              # type: ignore
+        self.prefix2.adjustSize() 
         self.prefix2.move(20, 180)
 
-        self.prefix3 = QCheckBox("trade: ", self)
+        self.prefix3 = QCheckBox("trade: ", self)                               # type: ignore
         self.prefix3.adjustSize()
         self.prefix3.move(100, 150)
 
-        self.prefix4 = QCheckBox("$trade$ ", self)
+        self.prefix4 = QCheckBox("$trade$ ", self)                              # type: ignore
         self.prefix4.adjustSize()
         self.prefix4.move(100, 180)
 
     def setupIndexImageSection(self):
-        self.FirstImageBox = QCheckBox("First", self)
+        self.FirstImageBox = QCheckBox("First", self)                           # type: ignore
         self.FirstImageBox.adjustSize()
         self.FirstImageBox.move(510, 300)
 
-        self.SecondImageBox = QCheckBox("Second", self)
+        self.SecondImageBox = QCheckBox("Second", self)                         # type: ignore
         self.SecondImageBox.adjustSize()
         self.SecondImageBox.move(510, 330)
 
-        self.ThirdImageBox = QCheckBox("Third", self)
+        self.ThirdImageBox = QCheckBox("Third", self)                           # type: ignore
         self.ThirdImageBox.adjustSize()
         self.ThirdImageBox.move(510, 360)
         
-        self.FourthImageBox = QCheckBox("Fourth", self)
+        self.FourthImageBox = QCheckBox("Fourth", self)                         # type: ignore
         self.FourthImageBox.adjustSize()
         self.FourthImageBox.move(510, 390)
 
-        self.FifthImageBox = QCheckBox("Fifth", self)
+        self.FifthImageBox = QCheckBox("Fifth", self)                           # type: ignore
         self.FifthImageBox.adjustSize()
         self.FifthImageBox.move(510, 420)
 
     def setupUsernameSection(self):
-        self.usernameLabel = QLabel('Username:', self)
+        self.usernameLabel = QLabel('Username:', self)                          # type: ignore
         self.usernameLabel.adjustSize()
         self.usernameLabel.move(20, 20)
-        self.usernameLineEdit = QLineEdit('', self)
+        self.usernameLineEdit = QLineEdit('', self)                             # type: ignore
         self.usernameLineEdit.adjustSize()
         self.usernameLineEdit.move(135, 18)
 
     def setupNumSection(self):
-        self.numTokensLabel = QLabel('Tokens:', self)
+        self.numTokensLabel = QLabel('Tokens:', self)                           # type: ignore
         self.numTokensLabel.adjustSize()
         self.numTokensLabel.move(20, 50)
-        self.numTokensLineEdit = QLineEdit('30', self)
+        self.numTokensLineEdit = QLineEdit('30', self)                          # type: ignore
         self.numTokensLineEdit.adjustSize()
         self.numTokensLineEdit.move(135, 48)
 
-        self.numImagesPerFolderLabel = QLabel('Images per folder:', self)
+        self.numImagesPerFolderLabel = QLabel('Images per folder:', self)       # type: ignore
         self.numImagesPerFolderLabel.adjustSize()
         self.numImagesPerFolderLabel.move(20, 80)
-        self.numImagesPerFolderLineEdit = QLineEdit('5', self)
+        self.numImagesPerFolderLineEdit = QLineEdit('5', self)                  # type: ignore
         self.numImagesPerFolderLineEdit.adjustSize()
         self.numImagesPerFolderLineEdit.move(135, 78)
 
     def setupMethodSection(self):
-        self.methodsLabel = QLabel('Choose method:', self)
+        self.methodsLabel = QLabel('Choose method:', self)                      # type: ignore
         self.methodsLabel.adjustSize()
         self.methodsLabel.move(20, 230)
         self.setupBioPromotionSection()
@@ -224,72 +224,72 @@ class Tab1(QWidget):
         self.setupNoPromotionSection()
 
     def setupBWPromotionSection(self):
-        self.watermarkBioRandomBox = QRadioButton ("Watermark + Bio --> Random", self)
+        self.watermarkBioRandomBox = QRadioButton ("Watermark + Bio --> Random", self)                  # type: ignore
         self.watermarkBioRandomBox.adjustSize()
         self.watermarkBioRandomBox.move(50, 430)
 
-        self.watermarkBioOneBox = QRadioButton ("Watermark + Bio --> One trader", self)
+        self.watermarkBioOneBox = QRadioButton ("Watermark + Bio --> One trader", self)                 # type: ignore
         self.watermarkBioOneBox.adjustSize()
         self.watermarkBioOneBox.move(50, 460)
 
-        self.watermarkBioOneBackupBox = QRadioButton ("Watermark + Bio --> One trader + Backup", self)
+        self.watermarkBioOneBackupBox = QRadioButton ("Watermark + Bio --> One trader + Backup", self)  # type: ignore
         self.watermarkBioOneBackupBox.adjustSize()
         self.watermarkBioOneBackupBox.move(50, 490)
 
     def setupWatermarkPromotionSection(self):
-        self.watermarkRandomBox = QRadioButton ("Watermark Promotion --> Random", self)
+        self.watermarkRandomBox = QRadioButton ("Watermark Promotion --> Random", self)                 # type: ignore
         self.watermarkRandomBox.adjustSize()
         self.watermarkRandomBox.move(50, 340)
 
-        self.watermarkOneBox = QRadioButton ("Watermark Promotion --> One trader", self)
+        self.watermarkOneBox = QRadioButton ("Watermark Promotion --> One trader", self)                # type: ignore
         self.watermarkOneBox.adjustSize()
         self.watermarkOneBox.move(50, 370)
 
-        self.watermarkOneBackupBox = QRadioButton ("Watermark Promotion --> One trader + Backup", self)
+        self.watermarkOneBackupBox = QRadioButton ("Watermark Promotion --> One trader + Backup", self) # type: ignore
         self.watermarkOneBackupBox.adjustSize()
         self.watermarkOneBackupBox.move(50, 400)
 
     def setupBioPromotionSection(self):
-        self.bioRandomBox = QRadioButton ("Bio Promotion --> Random", self)
+        self.bioRandomBox = QRadioButton ("Bio Promotion --> Random", self)                             # type: ignore
         self.bioRandomBox.adjustSize()
         self.bioRandomBox.move(50, 280)
 
-        self.bioOneBox = QRadioButton ("Bio Promotion --> One trader", self)
+        self.bioOneBox = QRadioButton ("Bio Promotion --> One trader", self)                            # type: ignore
         self.bioOneBox.adjustSize()
         self.bioOneBox.move(50, 310)
 
     def setupNoPromotionSection(self):
-        self.justRandomBox = QRadioButton ("No Promotion --> Random", self)
+        self.justRandomBox = QRadioButton ("No Promotion --> Random", self)                             # type: ignore
         self.justRandomBox.adjustSize()
         self.justRandomBox.move(50, 520)
 
-        self.justOneBox = QRadioButton ("No Promotion --> One trader", self)
+        self.justOneBox = QRadioButton ("No Promotion --> One trader", self)                            # type: ignore
         self.justOneBox.adjustSize()
         self.justOneBox.move(50, 550)
 
-        self.justOneBackupBox = QRadioButton ("No Promotion --> One trader + Backup", self)
+        self.justOneBackupBox = QRadioButton ("No Promotion --> One trader + Backup", self)             # type: ignore
         self.justOneBackupBox.adjustSize()
         self.justOneBackupBox.move(50, 580)
 
     def setupClearSection(self):
-        self.clearGUIButton = QPushButton('Clear\nGUI', self)
+        self.clearGUIButton = QPushButton('Clear\nGUI', self)                                           # type: ignore
         self.clearGUIButton.clicked.connect(self.clearGUI)
         self.clearGUIButton.adjustSize()
         self.clearGUIButton.move(330, 20)
 
-        self.clearErrorsAndResultsButton = QPushButton('Clear errors\nand results', self)
+        self.clearErrorsAndResultsButton = QPushButton('Clear errors\nand results', self)               # type: ignore
         self.clearErrorsAndResultsButton.clicked.connect(self.clearErrorsAndResults)
         self.clearErrorsAndResultsButton.adjustSize()
         self.clearErrorsAndResultsButton.move(650, 500)
 
-        self.clearFinalButton = QPushButton('Clear\nfinal folder', self)
+        self.clearFinalButton = QPushButton('Clear\nfinal folder', self)                                # type: ignore
         self.clearFinalButton.clicked.connect(self.clearFinalFolder)
         self.clearFinalButton.adjustSize()
         self.clearFinalButton.move(650, 550)
 
     #exit the application
     def exitFunction(self):
-        QApplication.quit()
+        QApplication.quit()     # type: ignore
 
     #clears everything written or marked on the GUI to make it more readable
     def clearGUI(self):
@@ -335,7 +335,7 @@ class Tab1(QWidget):
             elif os.path.isdir(filePath):
                 shutil.rmtree(filePath)
         self.processLogContent.setText('Folder final is empty.')
-        QApplication.processEvents()
+        QApplication.processEvents()                # type: ignore
         self.processLogContent.adjustSize()
 
     #delete all of the contents of the 'completed' folder and the 'errors.txt' file
@@ -345,7 +345,7 @@ class Tab1(QWidget):
         shutil.rmtree(self.completedPath)
         os.mkdir(self.completedPath)
         self.processLogContent.setText('File \'errors.txt\' and folder \'completed\' are empty.')
-        QApplication.processEvents()
+        QApplication.processEvents()                # type: ignore
         self.processLogContent.adjustSize()
             
     def redoRead(self):
@@ -465,19 +465,19 @@ class Tab1(QWidget):
             return True
         else:
             self.processLogContent.setText('You can\'t use bio method with checking which image in folders you want to watermark. Uncheck it and try again.')
-            QApplication.processEvents()
+            QApplication.processEvents()            # type: ignore
             self.indexImageForWatermark = 0
             return False
 
     def validWatermarkPromotion(self):
         if self.FirstImageBox.isChecked() == False and self.SecondImageBox.isChecked() == False and self.ThirdImageBox.isChecked() == False and self.FourthImageBox.isChecked() == False and self.FifthImageBox.isChecked() == False:
             self.processLogContent.setText('You can\'t use watermark method without checking which image in folders you want to watermark. Check exactly 1 and try again.')
-            QApplication.processEvents()
+            QApplication.processEvents()            # type: ignore
             self.indexImageForWatermark = 0
             return False
         if self.setIndexImageForWatermark() == False:
             self.processLogContent.setText('You can\'t use watermark method with checking more than 1 images per folder to watermark.  Check exactly 1 and try again.')
-            QApplication.processEvents()
+            QApplication.processEvents()            # type: ignore
             self.indexImageForWatermark = 0
             return False
 
@@ -544,7 +544,7 @@ class Tab1(QWidget):
         self.clearFinalButton.setDisabled(False)
         self.generateButton.setDisabled(False)
         self.processLogContent.setText('Order finished.\n' + '\nSnapchat username: ' + self.redoUsername + '\nTokens created: ' + str(self.redoTokens) + '\nMethod: ' + method + '\nTime elapsed: ' + '{:.2f}'.format(elapsedTime) + ' seconds.')
-        QApplication.processEvents()
+        QApplication.processEvents()            # type: ignore
         self.processLogContent.adjustSize()
         with open(self.completedPath + '/' + self.redoUsername + '.txt', 'w') as Writer:
             Writer.write(self.processLogContent.toPlainText())
@@ -566,7 +566,7 @@ class Tab1(QWidget):
             self.clearErrorsAndResultsButton.setDisabled(True)
             self.clearFinalButton.setDisabled(True)
             self.generateButton.setDisabled(True)
-            QApplication.processEvents()
+            QApplication.processEvents()        # type: ignore
             self.startProcess(startTime)
 
     def findMethod(self):
@@ -605,7 +605,7 @@ class Tab1(QWidget):
                 self.processLogContent.setText('You didn\'t choose method. Try again.')
             #elif checkIndexImageForWatermark == False:
                 #self.processLogContent.setText('You want watermark method but you didn\'t choose serial number of the image in folders for watermarking. Try again.')
-            QApplication.processEvents()
+            QApplication.processEvents()        # type: ignore
             self.processLogContent.adjustSize()
             return False
 
@@ -699,7 +699,7 @@ class Tab1(QWidget):
             except Exception as e:
                 print('There are not enough data for\nprocessing this account.\n' + str(e.args[0]))
                 self.processLogContent.setText('There are not enough data for\nprocessing this account.\n' + str(e.args[0]))
-                QApplication.processEvents()
+                QApplication.processEvents()            # type: ignore
                 self.processLogContent.adjustSize()
                 return False
 
@@ -937,7 +937,7 @@ class Tab1(QWidget):
             self.generateFunction()
 
 #Tab2 is a class that represents the second tab on the GUI, handling locations
-class Tab2(QWidget):
+class Tab2(QWidget):                        # type: ignore
     def __init__(self):
         super(Tab2, self).__init__()
         self.title = 'Locations'
@@ -960,51 +960,51 @@ class Tab2(QWidget):
         self.locationsTxtPath = '.././' + '/data/locations.txt'
 
     def setupProcessLogSection(self):
-        self.processLogLocationsLabel = QLabel('Process log', self)
+        self.processLogLocationsLabel = QLabel('Process log', self)                     # type: ignore
         self.processLogLocationsLabel.setStyleSheet("background-color : yellow")
         self.processLogLocationsLabel.adjustSize()
         self.processLogLocationsLabel.move(490, 20)
 
-        self.processLogLocationsContent = QTextEdit('Nice to see you baby.', self)
+        self.processLogLocationsContent = QTextEdit('Nice to see you baby.', self)      # type: ignore
         self.processLogLocationsContent.adjustSize()
         self.processLogLocationsContent.move(400, 50)
 
     def setupMainButtonsSection(self):
-        self.generateOrderButton = QPushButton('Generate\nlocations', self)
+        self.generateOrderButton = QPushButton('Generate\nlocations', self)             # type: ignore
         self.generateOrderButton.clicked.connect(self.generateLocation)
         self.generateOrderButton.setStyleSheet("background-color : green")
         self.generateOrderButton.adjustSize()
         self.generateOrderButton.move(130, 100)
 
-        self.clearGUILocationsButton = QPushButton('Clear\nGUI', self)
+        self.clearGUILocationsButton = QPushButton('Clear\nGUI', self)                  # type: ignore
         self.clearGUILocationsButton.clicked.connect(self.clearGUI)
         self.clearGUILocationsButton.adjustSize()
         self.clearGUILocationsButton.move(420, 275)
 
-        self.exitLocationsButton = QPushButton('Exit', self)
+        self.exitLocationsButton = QPushButton('Exit', self)                            # type: ignore
         self.exitLocationsButton.clicked.connect(self.exitFunction)
         self.exitLocationsButton.setStyleSheet("background-color : red")
         self.exitLocationsButton.adjustSize()
         self.exitLocationsButton.move(550, 280)
 
     def setupPopulationSection(self):
-        self.populationFromLabel = QLabel('From:', self)
+        self.populationFromLabel = QLabel('From:', self)                                # type: ignore
         self.populationFromLabel.adjustSize()
         self.populationFromLabel.move(70, 20)
-        self.populationFromLineEdit = QLineEdit('', self)
+        self.populationFromLineEdit = QLineEdit('', self)                               # type: ignore
         self.populationFromLineEdit.adjustSize()
         self.populationFromLineEdit.move(20, 50)
 
-        self.populationToLabel = QLabel('To:', self)
+        self.populationToLabel = QLabel('To:', self)                                    # type: ignore
         self.populationToLabel.adjustSize()
         self.populationToLabel.move(260, 20)
-        self.populationToLineEdit = QLineEdit('', self)
+        self.populationToLineEdit = QLineEdit('', self)                                 # type: ignore
         self.populationToLineEdit.adjustSize()
         self.populationToLineEdit.move(200, 50)
 
     #exit the application
     def exitFunction(self):
-        QApplication.quit()
+        QApplication.quit()                 # type: ignore
 
     def clearGUI(self):
         self.fromPopulation = 0
@@ -1021,7 +1021,7 @@ class Tab2(QWidget):
         self.processLogLocationsContent.setText('Generate started. Please wait.')
         self.clearGUILocationsButton.setDisabled(True)
         self.generateOrderButton.setDisabled(True)
-        QApplication.processEvents()
+        QApplication.processEvents()        # type: ignore
         with open(self.locationsTxtPath, 'w') as Writer:
             pass
         if self.populationFromLineEdit.text().isnumeric() and int(self.populationFromLineEdit.text()) > 0 and self.populationToLineEdit.text().isnumeric() and int(self.populationToLineEdit.text()) > 0:
@@ -1078,10 +1078,10 @@ class Tab2(QWidget):
         self.processLogLocationsContent.setText("locations generated."+ '\nNumber of cities: ' + str(cities) + '.\nPopulation from: ' + str(fromPopulation) + ' to: ' + str(toPopulation) + '.' + "\nTime elapsed: " + '{:.2f}'.format(elapsedTime) + ' seconds.')
         self.clearGUILocationsButton.setDisabled(False)
         self.generateOrderButton.setDisabled(False)
-        QApplication.processEvents()
+        QApplication.processEvents()        # type: ignore
 
 #Tab3 is a class that represents the third tab on the GUI, it handles the profit
-class Tab3(QWidget):
+class Tab3(QWidget):                        # type: ignore
     def __init__(self):
         super(Tab3, self).__init__()
         self.title = 'profit'
@@ -1103,44 +1103,44 @@ class Tab3(QWidget):
         self.sentence = ''
 
     def inputProfitSection(self):
-        self.inputProfitLabel = QLabel('Input profit:', self)
+        self.inputProfitLabel = QLabel('Input profit:', self)                       # type: ignore
         self.inputProfitLabel.adjustSize()
         self.inputProfitLabel.move(70, 40)
-        self.inputProfitLineEdit = QLineEdit('', self)
+        self.inputProfitLineEdit = QLineEdit('', self)                              # type: ignore
         self.inputProfitLineEdit.adjustSize()
         self.inputProfitLineEdit.move(70, 70)
 
     def setupMainButtonsSection(self):
-        self.GenerateSentencesButton = QPushButton('Generate\nSentences', self)
+        self.GenerateSentencesButton = QPushButton('Generate\nSentences', self)     # type: ignore
         self.GenerateSentencesButton.clicked.connect(self.generateSentences)
         self.GenerateSentencesButton.setStyleSheet("background-color : green")
         self.GenerateSentencesButton.adjustSize()
         self.GenerateSentencesButton.move(95, 140)
 
-        self.clearGUIprofitButton = QPushButton('Clear\nGUI', self)
+        self.clearGUIprofitButton = QPushButton('Clear\nGUI', self)                 # type: ignore
         self.clearGUIprofitButton.clicked.connect(self.clearGUI)
         self.clearGUIprofitButton.adjustSize()
         self.clearGUIprofitButton.move(420, 275)
 
-        self.exitprofitButton = QPushButton('Exit', self)
+        self.exitprofitButton = QPushButton('Exit', self)                           # type: ignore
         self.exitprofitButton.clicked.connect(self.exitFunction)
         self.exitprofitButton.setStyleSheet("background-color : red")
         self.exitprofitButton.adjustSize()
         self.exitprofitButton.move(550, 280)
 
     def setupProcessLogSection(self):
-        self.processLogprofitLabel = QLabel('Process log', self)
+        self.processLogprofitLabel = QLabel('Process log', self)                    # type: ignore
         self.processLogprofitLabel.setStyleSheet("background-color : yellow")
         self.processLogprofitLabel.adjustSize()
         self.processLogprofitLabel.move(490, 20)
 
-        self.processLogprofitContent = QTextEdit('Don\'t be too dirty babe.', self)
+        self.processLogprofitContent = QTextEdit('Don\'t be too dirty babe.', self) # type: ignore
         self.processLogprofitContent.adjustSize()
         self.processLogprofitContent.move(400, 50)
 
     #exit the application
     def exitFunction(self):
-        QApplication.quit()
+        QApplication.quit()                 # type: ignore
 
     def clearGUI(self):
         self.groups = []
@@ -1153,7 +1153,7 @@ class Tab3(QWidget):
         self.processLogprofitContent.setText('Process started. Please wait.')
         self.GenerateSentencesButton.setDisabled(True)
         self.clearGUIprofitButton.setDisabled(True)
-        QApplication.processEvents()
+        QApplication.processEvents()        # type: ignore
         self.groups = []
         self.sentences = []
         self.extractSentence()
@@ -1163,7 +1163,7 @@ class Tab3(QWidget):
         self.processLogprofitContent.setText('Number of groups in sentence: ' + str(countGroups) + '\nNumber of sentences generated: ' + str(len(self.sentences)))
         self.GenerateSentencesButton.setDisabled(False)
         self.clearGUIprofitButton.setDisabled(False)
-        QApplication.processEvents()
+        QApplication.processEvents()        # type: ignore
 
     def processFiles(self, countGroups):
         for i in range(len(self.groups)):
@@ -1225,6 +1225,6 @@ class Tab3(QWidget):
                 self.sentences.append(w + str(x))
 
 if __name__ == "__main__":
-    app = QApplication([])
+    app = QApplication([])      # type: ignore
     w = Window()
     app.exec_()
