@@ -16,7 +16,7 @@ device.shell("input swipe 20 260 20 200 2000")
 device.shell('input touchscreen tap 372 338')
 """
 
-List of commands for controlling the mouse and keyboard on the screen and on the emulator
+List of commands for controlling the emulator
 
 time.sleep(1)
 device.shell('input touchscreen tap 440 172')
@@ -26,7 +26,7 @@ time.sleep(1)
 device.shell('input keyevent 4')
 time.sleep(1)
 #koordinate za ulaz u adove
-#UBACI RANDOM
+#insert random
 device.shell('input touchscreen tap 410 60')
 """
 
