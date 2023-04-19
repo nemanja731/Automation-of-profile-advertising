@@ -27,7 +27,7 @@ class Window(QTabWidget):                   # type: ignore
       self.tab2 = Tab2()
       self.tab3 = Tab3()
       self.addTab(self.tab1, 'Generator')
-      self.addTab(self.tab2, 'locations')
+      self.addTab(self.tab2, 'Locations')
       self.addTab(self.tab3, 'Profit')
       self.show()
 
@@ -1084,7 +1084,7 @@ class Tab2(QWidget):                        # type: ignore
 class Tab3(QWidget):                        # type: ignore
     def __init__(self):
         super(Tab3, self).__init__()
-        self.title = 'profit'
+        self.title = 'Profit'
         self.left = 500
         self.top = 190
         self.width = 800
