@@ -965,7 +965,7 @@ class Tab2(QWidget):                        # type: ignore
         self.processLogLocationsLabel.adjustSize()
         self.processLogLocationsLabel.move(490, 20)
 
-        self.processLogLocationsContent = QTextEdit('Nice to see you baby.', self)      # type: ignore
+        self.processLogLocationsContent = QTextEdit('Nice to see you bro.', self)      # type: ignore
         self.processLogLocationsContent.adjustSize()
         self.processLogLocationsContent.move(400, 50)
 
