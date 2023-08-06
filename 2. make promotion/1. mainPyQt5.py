@@ -65,7 +65,7 @@ class Tab1(QWidget):                        # type: ignore
         self.username = ''
         self.traderUserImagesPath = ''
         self.imageForWatermarkPaths = []
-        self.dataNames = ['NAMES.txt', 'locations.txt', 'EMAILS.txt', 'JOBS.txt', 'BIOS.txt']
+        self.dataNames = ['NAMES.txt', 'LOCATIONS.txt', 'EMAILS.txt', 'JOBS.txt', 'BIOS.txt']
         #dataNamesFlags is used for easy checking of dataNames files,
         #in terms of easy recognition of which file needs to be processed or checked
         self.dataNamesFlags = [False, False, False, False, False]
@@ -140,7 +140,7 @@ class Tab1(QWidget):                        # type: ignore
         self.emailsCheckBox.adjustSize()
         self.emailsCheckBox.move(370, 380)
 
-        self.locationsCheckBox = QCheckBox("locations", self)                   # type: ignore
+        self.locationsCheckBox = QCheckBox("Locations", self)                   # type: ignore
         self.locationsCheckBox.adjustSize()
         self.locationsCheckBox.move(370, 410)
 
